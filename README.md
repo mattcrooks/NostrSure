@@ -41,7 +41,7 @@ flowchart TB
   end
 
   subgraph Ingest
-    D[NostrRelayClient (WebSockets)]
+    D[NostrRelayClient WebSockets]
     E[IngestWorkerService]
     F[Postgres: nostr_events]
   end
