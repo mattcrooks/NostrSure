@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Domain.Entities;
 using NostrSure.Infrastructure.Serialization;
 
+using NostrSure.Domain.ValueObjects;
+
 namespace NostrSure.Tests.Serialization
 {
     [TestCategory("Serialization")]
@@ -23,7 +25,7 @@ namespace NostrSure.Tests.Serialization
         {
             var json = """
             {
-                "content": "#[0]’s desire for more micro apps on nostr is critical. \n\nWe’re having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think that’s where this becomes truly unique. Can’t wait to see more.",
+                "content": "#[0]ï¿½s desire for more micro apps on nostr is critical. \n\nWeï¿½re having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think thatï¿½s where this becomes truly unique. Canï¿½t wait to see more.",
                 "created_at": 1673311423,
                 "id": "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe",
                 "kind": 1,
@@ -43,9 +45,9 @@ namespace NostrSure.Tests.Serialization
             Assert.IsNotNull(evt);
             Assert.AreEqual("9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe", evt.Id);
             Assert.AreEqual("82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2", evt.Pubkey.Value);
-            Assert.AreEqual(1, evt.Kind);
+            Assert.AreEqual(EventKind.Note, evt.Kind);
             Assert.AreEqual(1673311423, evt.CreatedAt.ToUnixTimeSeconds());
-            Assert.AreEqual("#[0]’s desire for more micro apps on nostr is critical. \n\nWe’re having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think that’s where this becomes truly unique. Can’t wait to see more.", evt.Content);
+            Assert.AreEqual("#[0]ï¿½s desire for more micro apps on nostr is critical. \n\nWeï¿½re having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think thatï¿½s where this becomes truly unique. Canï¿½t wait to see more.", evt.Content);
             Assert.AreEqual("f188ace3426d97dbe1641b35984dc839a5c88a728e7701c848144920616967eb64a30a7d657ca16d556bea718311b15260c886568531399ed14239868aedbcee", evt.Sig);
             Assert.AreEqual(1, evt.Tags.Count);
             Assert.AreEqual("p", evt.Tags[0][0]);
@@ -84,7 +86,7 @@ namespace NostrSure.Tests.Serialization
         {
             var json = """
             {
-                "content": "#[0]’s desire for more micro apps on nostr is critical.",
+                "content": "#[0]ï¿½s desire for more micro apps on nostr is critical.",
                 "created_at": 1673311423,
                 "id": "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe",
                 "kind": 1,
@@ -110,13 +112,14 @@ namespace NostrSure.Tests.Serialization
             Assert.AreEqual(evt.Pubkey.Value, evt2.Pubkey.Value);
             Assert.AreEqual(evt.CreatedAt, evt2.CreatedAt);
             Assert.AreEqual(evt.Kind, evt2.Kind);
+            Assert.IsTrue(Enum.IsDefined(typeof(EventKind), evt.Kind));
             Assert.AreEqual(evt.Content, evt2.Content);
             Assert.AreEqual(evt.Sig, evt2.Sig);
 
             Assert.AreEqual(evt.Tags.Count, evt2.Tags.Count);
-    
-                CollectionAssert.AreEqual(evt.Tags.ToList(), evt2.Tags.ToList());
-        
+
+            CollectionAssert.AreEqual(evt.Tags.ToList(), evt2.Tags.ToList());
+
         }
 
         [TestMethod]
@@ -126,7 +129,7 @@ namespace NostrSure.Tests.Serialization
                 "id",
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
-                1,
+                EventKind.Note,
                 new List<List<string>>(),
                 "test",
                 "sig"
@@ -146,7 +149,7 @@ namespace NostrSure.Tests.Serialization
                 "id",
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
-                1,
+                EventKind.Note,
                 new List<List<string>>(),
                 "test",
                 "sig"
@@ -168,7 +171,7 @@ namespace NostrSure.Tests.Serialization
                 "id",
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
-                1,
+                EventKind.Note,
                 new List<List<string>>(),
                 specialContent,
                 "sig"
@@ -178,7 +181,7 @@ namespace NostrSure.Tests.Serialization
             var json = JsonSerializer.Serialize(evt, options);
 
             // Parse the JSON and extract the content property value
-            using var doc = JsonDocument.Parse(json);   
+            using var doc = JsonDocument.Parse(json);
             var contentValue = doc.RootElement.GetProperty("content").GetString();
 
             // Check for correct escaping in the content field (as it appears in JSON)

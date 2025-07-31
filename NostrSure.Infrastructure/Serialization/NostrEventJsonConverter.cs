@@ -6,6 +6,7 @@ using NostrSure.Domain.Entities;
 
 
 namespace NostrSure.Infrastructure.Serialization;
+
 public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
 {
     public override NostrEvent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -16,7 +17,7 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         string? id = null;
         string? pubkey = null;
         long? createdAt = null;
-        int? kind = null;
+        int? kindInt = null;
         List<List<string>>? tags = null;
         string? content = null;
         string? sig = null;
@@ -44,7 +45,7 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
                     createdAt = reader.GetInt64();
                     break;
                 case "kind":
-                    kind = reader.GetInt32();
+                    kindInt = reader.GetInt32();
                     break;
                 case "tags":
                     tags = JsonSerializer.Deserialize<List<List<string>>>(ref reader, options);
@@ -61,14 +62,22 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
             }
         }
 
-        if (id is null || pubkey is null || createdAt is null || kind is null || tags is null || content is null || sig is null)
-            throw new JsonException("Missing required Nostr event fields.");
+        if (id is null) throw new JsonException("Missing required field: id");
+        if (pubkey is null) throw new JsonException("Missing required field: pubkey");
+        if (createdAt is null) throw new JsonException("Missing required field: created_at");
+        if (kindInt is null) throw new JsonException("Missing required field: kind");
+        if (tags is null) throw new JsonException("Missing required field: tags");
+        if (content is null) throw new JsonException("Missing required field: content");
+        if (sig is null) throw new JsonException("Missing required field: sig");
+
+        if (!Enum.IsDefined(typeof(NostrSure.Domain.ValueObjects.EventKind), kindInt.Value))
+            throw new JsonException($"Unknown event kind: {kindInt.Value}");
 
         return new NostrEvent(
             id,
             new Pubkey(pubkey),
             DateTimeOffset.FromUnixTimeSeconds(createdAt.Value),
-            kind.Value,
+            (NostrSure.Domain.ValueObjects.EventKind)kindInt.Value,
             tags,
             content,
             sig
@@ -82,7 +91,7 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         writer.WriteString("id", value.Id);
         writer.WriteString("pubkey", value.Pubkey.Value);
         writer.WriteNumber("created_at", value.CreatedAt.ToUnixTimeSeconds());
-        writer.WriteNumber("kind", value.Kind);
+        writer.WriteNumber("kind", (int)value.Kind);
 
         writer.WritePropertyName("tags");
         JsonSerializer.Serialize(writer, value.Tags, options);
