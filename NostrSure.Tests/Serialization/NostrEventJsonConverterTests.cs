@@ -118,5 +118,80 @@ namespace NostrSure.Tests.Serialization
                 CollectionAssert.AreEqual(evt.Tags.ToList(), evt2.Tags.ToList());
         
         }
+
+        [TestMethod]
+        public void Serializer_UsesUtf8Encoding()
+        {
+            var evt = new NostrEvent(
+                "id",
+                new Pubkey("pubkey"),
+                DateTimeOffset.UtcNow,
+                1,
+                new List<List<string>>(),
+                "test",
+                "sig"
+            );
+
+            var options = GetOptions();
+            var json = JsonSerializer.Serialize(evt, options);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(json);
+            var decoded = System.Text.Encoding.UTF8.GetString(bytes);
+            Assert.AreEqual(json, decoded, "JSON should be valid UTF-8 encoding.");
+        }
+
+        [TestMethod]
+        public void Serializer_ProducesMinifiedJson()
+        {
+            var evt = new NostrEvent(
+                "id",
+                new Pubkey("pubkey"),
+                DateTimeOffset.UtcNow,
+                1,
+                new List<List<string>>(),
+                "test",
+                "sig"
+            );
+
+            var options = GetOptions();
+            var json = JsonSerializer.Serialize(evt, options);
+
+            // Should not contain unnecessary whitespace or line breaks
+            Assert.IsFalse(json.Contains("\n") || json.Contains("\r") || json.Contains("\t"), "JSON should not contain unnecessary whitespace or line breaks.");
+            Assert.IsFalse(json.Contains("  "), "JSON should not contain multiple spaces.");
+        }
+
+        [TestMethod]
+        public void Serializer_EscapesContentFieldCharacters()
+        {
+            var specialContent = "line\nbreak\"quote\\backslash\rcarriage\tab\bbackspace\fformfeed";
+            var evt = new NostrEvent(
+                "id",
+                new Pubkey("pubkey"),
+                DateTimeOffset.UtcNow,
+                1,
+                new List<List<string>>(),
+                specialContent,
+                "sig"
+            );
+
+            var options = GetOptions();
+            var json = JsonSerializer.Serialize(evt, options);
+
+            // Parse the JSON and extract the content property value
+            using var doc = JsonDocument.Parse(json);   
+            var contentValue = doc.RootElement.GetProperty("content").GetString();
+
+            // Check for correct escaping in the content field (as it appears in JSON)
+            Assert.IsTrue(contentValue.Contains("\n"), "Should contain escaped line break (\\n)");
+            Assert.IsTrue(contentValue.Contains("\""), "Should contain escaped double quote (\\\")");
+            Assert.IsTrue(contentValue.Contains("\\"), "Should contain escaped backslash (\\\\)");
+            Assert.IsTrue(contentValue.Contains("\r"), "Should contain escaped carriage return (\\r)");
+            Assert.IsTrue(contentValue.Contains("\t"), "Should contain escaped tab (\\t)");
+            Assert.IsTrue(contentValue.Contains("\b"), "Should contain escaped backspace (\\b)");
+            Assert.IsTrue(contentValue.Contains("\f"), "Should contain escaped form feed (\\f)");
+
+            // All other characters should be included verbatim
+            Assert.IsTrue(contentValue.Contains("line"), "Other characters should be included verbatim.");
+        }
     }
 }
