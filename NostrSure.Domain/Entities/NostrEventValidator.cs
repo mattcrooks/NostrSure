@@ -105,14 +105,27 @@ public sealed class NostrEventValidator : INostrEventValidator
     private string CalculateEventId(NostrEvent evt)
     {
         // NIP-01: Serialize as [0, pubkey, created_at, kind, tags, content]
-        // Manual construction to ensure canonical JSON format
-
-        var tagsJson = "[" + string.Join(",", evt.Tags.Select(tag =>
-            "[" + string.Join(",", tag.Select(t => JsonSerializer.Serialize(t))) + "]")) + "]";
-
-        var manualJson = $"[0,{JsonSerializer.Serialize(evt.Pubkey.Value)},{evt.CreatedAt.ToUnixTimeSeconds()},{(int)evt.Kind},{tagsJson},{JsonSerializer.Serialize(evt.Content)}]";
-
-        var utf8Bytes = Encoding.UTF8.GetBytes(manualJson);
+        // Use UnsafeRelaxedJsonEscaping for Nostr-compatible character escaping
+        
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = false,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+        
+        var eventArray = new object[]
+        {
+            0,
+            evt.Pubkey.Value,
+            evt.CreatedAt.ToUnixTimeSeconds(),
+            (int)evt.Kind,
+            evt.Tags,
+            evt.Content
+        };
+        
+        var serialized = JsonSerializer.Serialize(eventArray, options);
+        
+        var utf8Bytes = Encoding.UTF8.GetBytes(serialized);
         var hash = NBitcoin.Crypto.Hashes.SHA256(utf8Bytes);
         return Convert.ToHexString(hash).ToLowerInvariant();
     }
