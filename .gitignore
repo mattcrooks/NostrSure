@@ -36,3 +36,4 @@ packages/
 
 # Exclude local secrets
 secrets.json
+BenchmarkDotNet.Artifacts/
