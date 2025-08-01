@@ -84,7 +84,7 @@ public class NostrEventJsonConverterBenchmarks
         // Event with large content containing special characters
         var largeContent = string.Join("\n", Enumerable.Repeat(
             "This is a long message with special characters: \"quotes\", \\backslashes\\, \ttabs\t, and \rcarriage returns\r. " +
-            "It contains Unicode characters: ????? and multiple paragraphs to test performance with larger payloads.",
+            "It contains Unicode characters: 漢字, العربية, and emojis like 😊 and 🚀 to test performance with larger payloads.",
             50));
 
         _largeContentEvent = new NostrEvent(
