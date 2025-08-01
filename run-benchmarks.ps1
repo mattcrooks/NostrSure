@@ -13,7 +13,7 @@ param(
     [switch]$Export
 )
 
-Write-Host "?? Running NostrSure Benchmark Suite" -ForegroundColor Green
+Write-Host ">> Running NostrSure Benchmark Suite" -ForegroundColor Green
 Write-Host "Suite: $Suite" -ForegroundColor Cyan
 
 # Build in Release mode first
