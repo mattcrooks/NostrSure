@@ -80,12 +80,12 @@ Write-Host "Command: dotnet run -c Release --project NostrSure.Tests --framework
 dotnet run -c Release --project NostrSure.Tests --framework net8.0 -- @benchmarkArgs
 
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "? Benchmarks completed successfully!" -ForegroundColor Green
+    Write-Host "✔ Benchmarks completed successfully!" -ForegroundColor Green
     
     if ($Export) {
-        Write-Host "?? Results exported to BenchmarkDotNet.Artifacts folder" -ForegroundColor Cyan
+        Write-Host "✔✔ Results exported to BenchmarkDotNet.Artifacts folder" -ForegroundColor Cyan
     }
 } else {
-    Write-Error "? Benchmarks failed!"
+    Write-Error "✖ Benchmarks failed!"
     exit 1
 }
