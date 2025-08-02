@@ -1,24 +1,14 @@
-using System;
-using System.Collections.Generic;
-
 namespace NostrSure.Domain.Entities;
 
+using NostrSure.Domain.Interfaces;
 using NostrSure.Domain.ValueObjects;
-
-public interface INostrEventValidator
-{
-    bool ValidateSignature(NostrEvent evt, out string error);
-    bool ValidateKind(NostrEvent evt, out string error);
-    bool ValidateTags(NostrEvent evt, out string error);
-    bool ValidateEventId(NostrEvent evt, out string error);
-}
 
 public sealed record NostrEvent(
     string Id,
     Pubkey Pubkey,
     DateTimeOffset CreatedAt,
     EventKind Kind,
-    IReadOnlyList<IReadOnlyList<string>> Tags,
+    IReadOnlyList<NostrTag> Tags,
     string Content,
     string Sig
 )

@@ -4,7 +4,6 @@ using System.Text.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Domain.Entities;
 using NostrSure.Infrastructure.Serialization;
-
 using NostrSure.Domain.ValueObjects;
 
 namespace NostrSure.Tests.Serialization
@@ -25,7 +24,7 @@ namespace NostrSure.Tests.Serialization
         {
             var json = """
             {
-                "content": "#[0]�s desire for more micro apps on nostr is critical. \n\nWe�re having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think that�s where this becomes truly unique. Can�t wait to see more.",
+                "content": "#[0]'s desire for more micro apps on nostr is critical. \n\nWe're having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think that's where this becomes truly unique. Can't wait to see more.",
                 "created_at": 1673311423,
                 "id": "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe",
                 "kind": 1,
@@ -39,7 +38,7 @@ namespace NostrSure.Tests.Serialization
                 ]
             }
             """;
-
+            
             var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
 
             Assert.IsNotNull(evt);
@@ -47,10 +46,12 @@ namespace NostrSure.Tests.Serialization
             Assert.AreEqual("82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2", evt.Pubkey.Value);
             Assert.AreEqual(EventKind.Note, evt.Kind);
             Assert.AreEqual(1673311423, evt.CreatedAt.ToUnixTimeSeconds());
-            Assert.AreEqual("#[0]�s desire for more micro apps on nostr is critical. \n\nWe�re having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think that�s where this becomes truly unique. Can�t wait to see more.", evt.Content);
+            Assert.AreEqual("#[0]'s desire for more micro apps on nostr is critical. \n\nWe're having fun with all the social clients being built right now, but the true power of this protocol comes with thousands of smaller ultilities coming together to build an ecosystem of valuable services. The seamlessness of switching between them will be the magic. \n\nI think that's where this becomes truly unique. Can't wait to see more.", evt.Content);
             Assert.AreEqual("f188ace3426d97dbe1641b35984dc839a5c88a728e7701c848144920616967eb64a30a7d657ca16d556bea718311b15260c886568531399ed14239868aedbcee", evt.Sig);
             Assert.AreEqual(1, evt.Tags.Count);
-            Assert.AreEqual("p", evt.Tags[0][0]);
+            Assert.AreEqual("p", evt.Tags[0].Name);
+            Assert.AreEqual(1, evt.Tags[0].Values.Count);
+            Assert.AreEqual("3bf0c63fcb93463407af97a5e5ee64fa883d107ef9e558472c4eb9aaaefa459d", evt.Tags[0].Values[0]);
         }
 
         [TestMethod]
@@ -77,7 +78,9 @@ namespace NostrSure.Tests.Serialization
             Assert.AreEqual(2, evt.Tags.Count);
             foreach (var tag in evt.Tags)
             {
-                Assert.AreEqual("p", tag[0]);
+                Assert.AreEqual("p", tag.Name);
+                Assert.AreEqual(1, tag.Values.Count);
+                Assert.IsTrue(tag.Values[0].Length == 64, "Pubkey should be 64 characters");
             }
         }
 
@@ -86,7 +89,7 @@ namespace NostrSure.Tests.Serialization
         {
             var json = """
             {
-                "content": "#[0]�s desire for more micro apps on nostr is critical.",
+                "content": "#[0]'s desire for more micro apps on nostr is critical.",
                 "created_at": 1673311423,
                 "id": "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe",
                 "kind": 1,
@@ -117,9 +120,17 @@ namespace NostrSure.Tests.Serialization
             Assert.AreEqual(evt.Sig, evt2.Sig);
 
             Assert.AreEqual(evt.Tags.Count, evt2.Tags.Count);
-
-            CollectionAssert.AreEqual(evt.Tags.ToList(), evt2.Tags.ToList());
-
+            
+            // Compare tags individually
+            for (int i = 0; i < evt.Tags.Count; i++)
+            {
+                Assert.AreEqual(evt.Tags[i].Name, evt2.Tags[i].Name);
+                Assert.AreEqual(evt.Tags[i].Values.Count, evt2.Tags[i].Values.Count);
+                for (int j = 0; j < evt.Tags[i].Values.Count; j++)
+                {
+                    Assert.AreEqual(evt.Tags[i].Values[j], evt2.Tags[i].Values[j]);
+                }
+            }
         }
 
         [TestMethod]
@@ -130,7 +141,7 @@ namespace NostrSure.Tests.Serialization
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
                 EventKind.Note,
-                new List<List<string>>(),
+                new List<NostrTag>(),
                 "test",
                 "sig"
             );
@@ -150,7 +161,7 @@ namespace NostrSure.Tests.Serialization
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
                 EventKind.Note,
-                new List<List<string>>(),
+                new List<NostrTag>(),
                 "test",
                 "sig"
             );
@@ -172,7 +183,7 @@ namespace NostrSure.Tests.Serialization
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
                 EventKind.Note,
-                new List<List<string>>(),
+                new List<NostrTag>(),
                 specialContent,
                 "sig"
             );
@@ -195,6 +206,76 @@ namespace NostrSure.Tests.Serialization
 
             // All other characters should be included verbatim
             Assert.IsTrue(contentValue.Contains("line"), "Other characters should be included verbatim.");
+        }
+
+        [TestMethod]
+        public void CanDeserialize_TagsWithMultipleValues()
+        {
+            var json = """
+            {
+                "content": "test content",
+                "created_at": 1673311423,
+                "id": "test_id",
+                "kind": 1,
+                "pubkey": "test_pubkey",
+                "sig": "test_sig",
+                "tags": [
+                    ["e", "event_id", "relay_url", "marker"],
+                    ["p", "pubkey_hex"],
+                    ["t", "hashtag"],
+                    ["relay", "wss://relay.example.com", "read"]
+                ]
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
+
+            Assert.IsNotNull(evt);
+            Assert.AreEqual(4, evt.Tags.Count);
+
+            // Check "e" tag with multiple values
+            var eTag = evt.Tags[0];
+            Assert.AreEqual("e", eTag.Name);
+            Assert.AreEqual(3, eTag.Values.Count);
+            Assert.AreEqual("event_id", eTag.Values[0]);
+            Assert.AreEqual("relay_url", eTag.Values[1]);
+            Assert.AreEqual("marker", eTag.Values[2]);
+
+            // Check "p" tag with single value
+            var pTag = evt.Tags[1];
+            Assert.AreEqual("p", pTag.Name);
+            Assert.AreEqual(1, pTag.Values.Count);
+            Assert.AreEqual("pubkey_hex", pTag.Values[0]);
+
+            // Check "t" tag with single value
+            var tTag = evt.Tags[2];
+            Assert.AreEqual("t", tTag.Name);
+            Assert.AreEqual(1, tTag.Values.Count);
+            Assert.AreEqual("hashtag", tTag.Values[0]);
+
+            // Check "relay" tag with multiple values
+            var relayTag = evt.Tags[3];
+            Assert.AreEqual("relay", relayTag.Name);
+            Assert.AreEqual(2, relayTag.Values.Count);
+            Assert.AreEqual("wss://relay.example.com", relayTag.Values[0]);
+            Assert.AreEqual("read", relayTag.Values[1]);
+        }
+
+        [TestMethod]
+        public void TagValidation_EnforcesNIP01Compliance()
+        {
+            // Test that tags are properly validated according to NIP-01
+            var validPTag = new NostrTag("p", new[] { "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2" });
+            Assert.IsTrue(validPTag.IsValid(), "Valid p tag should pass validation");
+
+            var invalidPTag = new NostrTag("p", new[] { "invalid_hex" });
+            Assert.IsFalse(invalidPTag.IsValid(), "Invalid p tag should fail validation");
+
+            var validETag = new NostrTag("e", new[] { "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe" });
+            Assert.IsTrue(validETag.IsValid(), "Valid e tag should pass validation");
+
+            var validTTag = new NostrTag("t", new[] { "nostr" });
+            Assert.IsTrue(validTTag.IsValid(), "Valid t tag should pass validation");
         }
     }
 }
