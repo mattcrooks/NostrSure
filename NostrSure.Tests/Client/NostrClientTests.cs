@@ -241,7 +241,7 @@ public class NostrClientTests
             Pubkey: new Pubkey("test_pubkey_123"),
             CreatedAt: DateTimeOffset.UtcNow,
             Kind: EventKind.Note,
-            Tags: new List<IReadOnlyList<string>>(),
+            Tags: new List<NostrTag>(),
             Content: "test content",
             Sig: "test_signature_123"
         );

@@ -102,7 +102,8 @@ public class NostrClient : INostrClient
                 if (!_healthPolicy.ShouldRetry(attempt))
                 {
                     _logger?.LogError("Max connection attempts reached for {RelayUrl}", relayUrl);
-                    await OnError?.Invoke(ex);
+                    if (OnError != null)
+                        await OnError.Invoke(ex);
                     throw;
                 }
 

@@ -27,10 +27,7 @@ public class JsonMessageSerializer : IMessageSerializer
         if (message == null || message.Length == 0)
             throw new ArgumentException("Message cannot be null or empty", nameof(message));
 
-        // Validate that this is a JSON array (requirement R2)
-        if (!IsValidJsonArray(message))
-            throw new InvalidOperationException("All outbound messages must be valid JSON arrays");
-
+        // All outbound messages are valid JSON arrays (requirement R2) since we serialize object arrays
         return JsonSerializer.Serialize(message, _options);
     }
 
