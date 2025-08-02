@@ -36,7 +36,7 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         string? pubkey = null;
         long? createdAt = null;
         int? kindInt = null;
-        List<List<string>>? tags = null;
+        List<NostrTag>? tags = null;
         string? content = null;
         string? sig = null;
 
@@ -120,12 +120,12 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static List<List<string>> ReadTagsOptimized(ref Utf8JsonReader reader)
+    private static List<NostrTag> ReadTagsOptimized(ref Utf8JsonReader reader)
     {
         if (reader.TokenType != JsonTokenType.StartArray)
             ThrowInvalidJsonException();
 
-        var tags = new List<List<string>>();
+        var tags = new List<NostrTag>();
 
         while (reader.Read())
         {
@@ -135,7 +135,8 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
             if (reader.TokenType != JsonTokenType.StartArray)
                 ThrowInvalidJsonException();
 
-            var tag = new List<string>();
+            // Pre-allocate list for tag elements
+            var tagElements = new List<string>();
 
             while (reader.Read())
             {
@@ -147,10 +148,15 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
 
                 var value = reader.GetString();
                 if (value is not null)
-                    tag.Add(value);
+                    tagElements.Add(value);
             }
 
-            tags.Add(tag);
+            // Only create NostrTag if we have at least one element (the tag name)
+            if (tagElements.Count > 0)
+            {
+                // Use NostrTag.FromArray for proper validation and construction
+                tags.Add(NostrTag.FromArray(tagElements));
+            }
         }
 
         return tags;
@@ -177,17 +183,23 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void WriteTagsOptimized(Utf8JsonWriter writer, IReadOnlyList<IReadOnlyList<string>> tags)
+    private static void WriteTagsOptimized(Utf8JsonWriter writer, IReadOnlyList<NostrTag> tags)
     {
         writer.WriteStartArray();
 
         foreach (var tag in tags)
         {
             writer.WriteStartArray();
-            foreach (var value in tag)
+            
+            // Write tag name first
+            writer.WriteStringValue(tag.Name);
+            
+            // Write tag values
+            foreach (var value in tag.Values)
             {
                 writer.WriteStringValue(value);
             }
+            
             writer.WriteEndArray();
         }
 

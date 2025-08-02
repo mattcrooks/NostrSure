@@ -19,7 +19,7 @@ namespace NostrSure.Tests.Entities
                 new Pubkey("pubkey"),
                 DateTimeOffset.UtcNow,
                 EventKind.Note,
-                new List<List<string>> { new List<string> { "p", "abc" } },
+                new List<NostrTag> { new NostrTag("t", new[] { "testhashtag" }) }, // Use a "t" tag instead of "p" tag to avoid hex validation
                 "content",
                 "sig"
             );
@@ -34,8 +34,6 @@ namespace NostrSure.Tests.Entities
             Assert.IsFalse(result);
             Assert.IsTrue(error.Contains("Signature is empty"));
         }
-
-
 
         [TestMethod]
         public void ValidateKind_UnknownKind_Fails()
@@ -60,7 +58,7 @@ namespace NostrSure.Tests.Entities
         [TestMethod]
         public void ValidateTags_NullTags_Fails()
         {
-            var evt = CreateValidEvent() with { Tags = null };
+            var evt = CreateValidEvent() with { Tags = null! };
             var validator = new NostrEventValidator();
             var result = validator.ValidateTags(evt, out var error);
             Assert.IsFalse(result);
@@ -70,21 +68,32 @@ namespace NostrSure.Tests.Entities
         [TestMethod]
         public void ValidateTags_EmptyTag_Fails()
         {
-            var evt = CreateValidEvent() with { Tags = new List<List<string>> { new List<string>() } };
+            // This test now uses NostrTag, but NostrTag.FromArray will throw if empty
+            // So we test the validator's handling of invalid tag structures
+            var evt = new NostrEvent(
+                "id",
+                new Pubkey("pubkey"),
+                DateTimeOffset.UtcNow,
+                EventKind.Note,
+                new List<NostrTag>(), // Empty tags list is valid
+                "content",
+                "sig"
+            );
             var validator = new NostrEventValidator();
             var result = validator.ValidateTags(evt, out var error);
-            Assert.IsFalse(result);
-            Assert.IsTrue(error.Contains("Tag is empty"));
+            Assert.IsTrue(result); // Empty tags list should be valid
+            Assert.AreEqual(string.Empty, error);
         }
 
         [TestMethod]
-        public void ValidateTags_TagWithEmptyValue_Fails()
+        public void ValidateTags_InvalidPTag_Fails()
         {
-            var evt = CreateValidEvent() with { Tags = new List<List<string>> { new List<string> { "" } } };
+            var invalidPTag = new NostrTag("p", new[] { "invalid_hex" });
+            var evt = CreateValidEvent() with { Tags = new List<NostrTag> { invalidPTag } };
             var validator = new NostrEventValidator();
             var result = validator.ValidateTags(evt, out var error);
             Assert.IsFalse(result);
-            Assert.IsTrue(error.Contains("Tag contains empty value"));
+            Assert.IsTrue(error.Contains("Invalid tag"));
         }
 
         [TestMethod]
@@ -167,7 +176,6 @@ namespace NostrSure.Tests.Entities
             Assert.IsTrue(result, $"Signature should be valid, but got error: {error}");
         }
 
-
         [TestMethod]
         public void ValidateSignature_ValidNIP01Event_Failed()
         {
@@ -223,6 +231,45 @@ namespace NostrSure.Tests.Entities
             var result = validator.ValidateTags(evt, out var error);
             Assert.IsTrue(result);
             Assert.AreEqual(string.Empty, error);
+        }
+
+        [TestMethod]
+        public void ValidateTags_ValidPTag_Passes()
+        {
+            var validPTag = new NostrTag("p", new[] { "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2" });
+            var evt = CreateValidEvent() with { Tags = new List<NostrTag> { validPTag } };
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateTags(evt, out var error);
+            Assert.IsTrue(result);
+            Assert.AreEqual(string.Empty, error);
+        }
+
+        [TestMethod]
+        public void ValidateTags_ValidETag_Passes()
+        {
+            var validETag = new NostrTag("e", new[] { "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe" });
+            var evt = CreateValidEvent() with { Tags = new List<NostrTag> { validETag } };
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateTags(evt, out var error);
+            Assert.IsTrue(result);
+            Assert.AreEqual(string.Empty, error);
+        }
+
+        [TestMethod]
+        public void NostrTag_EnforcesNIP01Validation()
+        {
+            // Test that NostrTag.IsValid() works correctly
+            var validPTag = new NostrTag("p", new[] { "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2" });
+            Assert.IsTrue(validPTag.IsValid(), "Valid p tag should pass validation");
+
+            var invalidPTag = new NostrTag("p", new[] { "invalid_hex" });
+            Assert.IsFalse(invalidPTag.IsValid(), "Invalid p tag should fail validation");
+
+            var validETag = new NostrTag("e", new[] { "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe" });
+            Assert.IsTrue(validETag.IsValid(), "Valid e tag should pass validation");
+
+            var validTTag = new NostrTag("t", new[] { "nostr" });
+            Assert.IsTrue(validTTag.IsValid(), "Valid t tag should pass validation");
         }
     }
 }

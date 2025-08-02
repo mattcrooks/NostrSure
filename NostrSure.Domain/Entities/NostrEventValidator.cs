@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using NostrSure.Domain.ValueObjects;
 using NBitcoin.Secp256k1;
+using NostrSure.Domain.Interfaces;
 
 namespace NostrSure.Domain.Entities;
 
@@ -105,6 +106,7 @@ public sealed class NostrEventValidator : INostrEventValidator
     private string CalculateEventId(NostrEvent evt)
     {
         // NIP-01: Serialize as [0, pubkey, created_at, kind, tags, content]
+        // Convert NostrTag objects back to array format for serialization
         // Use UnsafeRelaxedJsonEscaping for Nostr-compatible character escaping
         
         var options = new JsonSerializerOptions
@@ -113,13 +115,21 @@ public sealed class NostrEventValidator : INostrEventValidator
             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
         
+        // Convert NostrTag objects to arrays for serialization (NIP-01 format)
+        var tagsArrays = evt.Tags.Select(tag => 
+        {
+            var array = new List<string> { tag.Name };
+            array.AddRange(tag.Values);
+            return array.ToArray();
+        }).ToArray();
+        
         var eventArray = new object[]
         {
             0,
             evt.Pubkey.Value,
             evt.CreatedAt.ToUnixTimeSeconds(),
             (int)evt.Kind,
-            evt.Tags,
+            tagsArrays,
             evt.Content
         };
         
@@ -129,6 +139,7 @@ public sealed class NostrEventValidator : INostrEventValidator
         var hash = NBitcoin.Crypto.Hashes.SHA256(utf8Bytes);
         return Convert.ToHexString(hash).ToLowerInvariant();
     }
+    
     private static byte[] ParseHex(string hex)
     {
         if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
@@ -171,19 +182,36 @@ public sealed class NostrEventValidator : INostrEventValidator
             error = "Tags are null.";
             return false;
         }
+        
         foreach (var tag in evt.Tags)
         {
-            if (tag == null || tag.Count == 0)
+            if (tag == null)
             {
-                error = "Tag is empty or null.";
+                error = "Tag is null.";
                 return false;
             }
-            if (tag.Any(string.IsNullOrWhiteSpace))
+            
+            if (string.IsNullOrWhiteSpace(tag.Name))
+            {
+                error = "Tag name is empty or null.";
+                return false;
+            }
+            
+            // Check if tag is valid according to NIP-01 rules
+            if (!tag.IsValid())
+            {
+                error = $"Invalid tag: {tag.Name}";
+                return false;
+            }
+            
+            // Check for empty values in tag
+            if (tag.Values.Any(string.IsNullOrWhiteSpace))
             {
                 error = "Tag contains empty value.";
                 return false;
             }
         }
+        
         error = string.Empty;
         return true;
     }
