@@ -76,19 +76,7 @@ public class JsonMessageSerializer : IMessageSerializer
         }
     }
 
-    private static bool IsValidJsonArray(object[] message)
-    {
-        // Check if all elements are serializable
-        try
-        {
-            JsonSerializer.Serialize(message);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    // Removed IsValidJsonArray method; validation is handled in Serialize.
 
     private RelayEventMessage ParseRelayEventMessage(JsonElement root)
     {
