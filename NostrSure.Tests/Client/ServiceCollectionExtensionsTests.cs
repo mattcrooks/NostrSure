@@ -49,6 +49,21 @@ public class ServiceCollectionExtensionsTests
     }
 
     [TestMethod]
+    public void AddNostrClient_WithNullParameters_RegistersServicesWithDefaults()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+
+        // Act
+        services.AddNostrClient(null, null, 3);
+        var serviceProvider = services.BuildServiceProvider();
+
+        // Assert
+        Assert.IsNotNull(serviceProvider.GetService<INostrClient>());
+        Assert.IsNotNull(serviceProvider.GetService<IHealthPolicy>());
+    }
+
+    [TestMethod]
     public void AddNostrClient_NostrClientIsTransient()
     {
         // Arrange
