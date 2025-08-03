@@ -151,4 +151,64 @@ public class InMemorySubscriptionManagerTests
         Assert.IsTrue(_manager.HasSubscription(subscriptionId));
         Assert.AreEqual(1, _manager.GetActiveSubscriptions().Count());
     }
+
+    [TestMethod]
+    public void AddSubscription_StoresTimestampCorrectly()
+    {
+        var subscriptionId = "test_sub_time";
+        _manager.AddSubscription(subscriptionId);
+        var before = DateTime.UtcNow.AddSeconds(-1);
+        var after = DateTime.UtcNow.AddSeconds(1);
+        var dictField = typeof(InMemorySubscriptionManager)
+            .GetField("_subscriptions", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var dict = (System.Collections.Concurrent.ConcurrentDictionary<string, DateTime>)dictField!.GetValue(_manager)!;
+        Assert.IsTrue(dict.TryGetValue(subscriptionId, out var timestamp));
+        Assert.IsTrue(timestamp >= before && timestamp <= after);
+    }
+
+    [TestMethod]
+    public void RemoveSubscription_RemovesFromEnumeration()
+    {
+        var sub1 = "sub_enum_1";
+        var sub2 = "sub_enum_2";
+        _manager.AddSubscription(sub1);
+        _manager.AddSubscription(sub2);
+        _manager.RemoveSubscription(sub1);
+        var active = _manager.GetActiveSubscriptions().ToList();
+        Assert.AreEqual(1, active.Count);
+        Assert.AreEqual(sub2, active[0]);
+    }
+
+    [TestMethod]
+    public void NewSubscriptionId_FormatIsStrict()
+    {
+        var id = _manager.NewSubscriptionId();
+        var parts = id.Split('_');
+        Assert.AreEqual(3, parts.Length);
+        Assert.AreEqual("sub", parts[0]);
+        Assert.IsTrue(int.TryParse(parts[1], out _));
+        Assert.IsTrue(DateTime.TryParseExact(parts[2], "yyyyMMddHHmmss", null, System.Globalization.DateTimeStyles.None, out _));
+    }
+
+    [TestMethod]
+    public void AddSubscription_ConcurrentAccess_IsThreadSafe()
+    {
+        var ids = Enumerable.Range(0, 1000).Select(i => $"sub_conc_{i}").ToList();
+        System.Threading.Tasks.Parallel.ForEach(ids, id => _manager.AddSubscription(id));
+        var active = _manager.GetActiveSubscriptions().ToList();
+        Assert.AreEqual(1000, active.Count);
+        foreach (var id in ids)
+            Assert.IsTrue(active.Contains(id));
+    }
+
+    [TestMethod]
+    public void RemoveSubscription_ConcurrentAccess_IsThreadSafe()
+    {
+        var ids = Enumerable.Range(0, 1000).Select(i => $"sub_conc_{i}").ToList();
+        foreach (var id in ids)
+            _manager.AddSubscription(id);
+        System.Threading.Tasks.Parallel.ForEach(ids, id => _manager.RemoveSubscription(id));
+        var active = _manager.GetActiveSubscriptions().ToList();
+        Assert.AreEqual(0, active.Count);
+    }
 }
