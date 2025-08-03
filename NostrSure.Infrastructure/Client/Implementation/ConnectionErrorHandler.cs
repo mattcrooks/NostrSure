@@ -1,8 +1,7 @@
-using System.Net.WebSockets;
-using System.Net.Sockets;
-using System.Net;
 using Microsoft.Extensions.Logging;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Net.Sockets;
+using System.Net.WebSockets;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -23,10 +22,10 @@ public sealed class ConnectionErrorHandler : IConnectionErrorHandler
     public async Task HandleErrorAsync(Exception exception, string context)
     {
         _logger?.LogError(exception, "WebSocket error in {Context}: {Message}", context, exception.Message);
-        
+
         // Fire error event
         ErrorOccurred?.Invoke(this, exception);
-        
+
         // Allow for async error handling if needed
         await Task.CompletedTask;
     }
@@ -39,7 +38,7 @@ public sealed class ConnectionErrorHandler : IConnectionErrorHandler
             HttpRequestException => true,
             SocketException => true,
             TimeoutException => true,
-            
+
             // WebSocket-specific exceptions
             WebSocketException wsEx => wsEx.WebSocketErrorCode switch
             {
@@ -55,14 +54,14 @@ public sealed class ConnectionErrorHandler : IConnectionErrorHandler
                 WebSocketError.UnsupportedVersion => false, // Don't retry on version mismatch
                 _ => true // Default to retry for unknown WebSocket errors
             },
-            
+
             // Operation cancelled - usually intentional, don't retry
             OperationCanceledException => false,
-            
+
             // Invalid operations - usually programming errors, don't retry
             InvalidOperationException => false,
             ArgumentException => false,
-            
+
             // Default to retry for unknown exceptions
             _ => true
         };

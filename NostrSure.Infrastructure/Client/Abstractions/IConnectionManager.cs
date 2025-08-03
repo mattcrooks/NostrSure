@@ -11,7 +11,7 @@ public interface IConnectionManager : IDisposable
     /// Current WebSocket state
     /// </summary>
     WebSocketState State { get; }
-    
+
     /// <summary>
     /// Establishes a connection to the specified URI
     /// </summary>
@@ -19,7 +19,7 @@ public interface IConnectionManager : IDisposable
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task representing the connection operation</returns>
     Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Closes the WebSocket connection
     /// </summary>
@@ -27,10 +27,10 @@ public interface IConnectionManager : IDisposable
     /// <param name="statusDescription">Optional close description</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task representing the close operation</returns>
-    Task CloseAsync(WebSocketCloseStatus closeStatus = WebSocketCloseStatus.NormalClosure, 
-                    string? statusDescription = null, 
+    Task CloseAsync(WebSocketCloseStatus closeStatus = WebSocketCloseStatus.NormalClosure,
+                    string? statusDescription = null,
                     CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Event raised when the connection is disconnected
     /// </summary>

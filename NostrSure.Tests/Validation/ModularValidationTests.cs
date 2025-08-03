@@ -1,18 +1,9 @@
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Extensions;
 using NostrSure.Domain.Interfaces;
-using NostrSure.Domain.Services;
 using NostrSure.Domain.Validation;
 using NostrSure.Domain.ValueObjects;
-using NostrSure.Infrastructure.Serialization;
-using System;
-using System.Collections.Generic;
 
 namespace NostrSure.Tests.Validation
 {
@@ -151,7 +142,7 @@ namespace NostrSure.Tests.Validation
             var eventIdValidator = _serviceProvider.GetRequiredService<IEventIdValidator>();
             var kindValidator = _serviceProvider.GetRequiredService<IEventKindValidator>();
             var tagValidator = _serviceProvider.GetRequiredService<IEventTagValidator>();
-            
+
             var validEvent = CreateValidEvent();
 
             // Act
@@ -185,7 +176,7 @@ namespace NostrSure.Tests.Validation
 
             // Assert
             Assert.AreEqual(id1, id2);
-            Assert.IsTrue(stopwatch2.ElapsedTicks < stopwatch1.ElapsedTicks, 
+            Assert.IsTrue(stopwatch2.ElapsedTicks < stopwatch1.ElapsedTicks,
                 "Second calculation should be faster due to caching");
         }
 
@@ -214,7 +205,7 @@ namespace NostrSure.Tests.Validation
                 EventKind.Note,
                 new List<NostrTag>
                 {
-               
+
                 },
                 "Bitcoin price: $118451, Sats per USD: 844",
                 "177d555723178c1e6ec5dff8a9fd252b6b0768c085860df1e2a1ea881fc23734d2c846e061be31090db892cd1525ec2f976280a6ac90b1c02427f4e3db048db4"

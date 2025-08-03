@@ -1,10 +1,7 @@
-using System.Text.Json;
-using NostrSure.Infrastructure.Serialization;
-using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.ValueObjects;
+using NostrSure.Infrastructure.Serialization;
+using System.Text.Json;
 
 namespace NostrSure.Tests.Entities
 {

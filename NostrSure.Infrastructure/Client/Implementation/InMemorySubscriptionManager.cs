@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Collections.Concurrent;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 

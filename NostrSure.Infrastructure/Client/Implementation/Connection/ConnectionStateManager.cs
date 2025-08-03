@@ -1,6 +1,6 @@
-using System.Net.WebSockets;
 using Microsoft.Extensions.Logging;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Net.WebSockets;
 
 namespace NostrSure.Infrastructure.Client.Implementation.Connection;
 
@@ -36,17 +36,17 @@ public sealed class ConnectionStateManager : IConnectionStateManager
     public void UpdateState(WebSocketState newState)
     {
         WebSocketState previousState;
-        
+
         lock (_stateLock)
         {
             previousState = _currentState;
             if (previousState == newState)
                 return; // No change, don't fire event
-                
+
             _currentState = newState;
         }
 
-        _logger?.LogDebug("WebSocket state changed from {PreviousState} to {NewState}", 
+        _logger?.LogDebug("WebSocket state changed from {PreviousState} to {NewState}",
                          previousState, newState);
 
         // Fire event outside the lock to prevent deadlocks

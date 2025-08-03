@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
+using NostrSure.Domain.Entities;
+using NostrSure.Domain.ValueObjects;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using NostrSure.Domain.Entities;
-using NostrSure.Domain.ValueObjects;
 
 namespace NostrSure.Infrastructure.Serialization;
 
@@ -97,8 +95,8 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         }
 
         // Validate all required fields are present
-        if (fieldsFound != requiredFields || 
-            id is null || pubkey is null || createdAt is null || 
+        if (fieldsFound != requiredFields ||
+            id is null || pubkey is null || createdAt is null ||
             kindInt is null || tags is null || content is null || sig is null)
         {
             ThrowMissingRequiredFieldsException();
@@ -190,16 +188,16 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         foreach (var tag in tags)
         {
             writer.WriteStartArray();
-            
+
             // Write tag name first
             writer.WriteStringValue(tag.Name);
-            
+
             // Write tag values
             foreach (var value in tag.Values)
             {
                 writer.WriteStringValue(value);
             }
-            
+
             writer.WriteEndArray();
         }
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace NostrSure.Domain.Validation;
 
 /// <summary>
@@ -12,13 +10,13 @@ public readonly record struct ValidationResult
     public ValidationSeverity Severity { get; init; }
 
     public static ValidationResult Success() => new() { IsValid = true };
-    
+
     public static ValidationResult Failure(string message, ValidationSeverity severity = ValidationSeverity.Error)
         => new() { IsValid = false, Error = new ValidationError(message), Severity = severity };
-    
+
     public static ValidationResult Failure(string message, string? code, ValidationSeverity severity = ValidationSeverity.Error)
         => new() { IsValid = false, Error = new ValidationError(message, code), Severity = severity };
-    
+
     public static ValidationResult Failure(string message, Exception exception, ValidationSeverity severity = ValidationSeverity.Error)
         => new() { IsValid = false, Error = new ValidationError(message, InnerException: exception), Severity = severity };
 }
@@ -31,9 +29,9 @@ public record ValidationError(string Message, string? Code = null, Exception? In
 /// <summary>
 /// Indicates the severity level of a validation error
 /// </summary>
-public enum ValidationSeverity 
-{ 
-    Warning, 
-    Error, 
-    Critical 
+public enum ValidationSeverity
+{
+    Warning,
+    Error,
+    Critical
 }

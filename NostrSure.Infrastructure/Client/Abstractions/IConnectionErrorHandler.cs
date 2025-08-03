@@ -9,7 +9,7 @@ public interface IConnectionErrorHandler
     /// Event raised when an error occurs
     /// </summary>
     event EventHandler<Exception>? ErrorOccurred;
-    
+
     /// <summary>
     /// Handles an error that occurred during WebSocket operations
     /// </summary>
@@ -17,7 +17,7 @@ public interface IConnectionErrorHandler
     /// <param name="context">Context where the error occurred</param>
     /// <returns>Task representing the error handling operation</returns>
     Task HandleErrorAsync(Exception exception, string context);
-    
+
     /// <summary>
     /// Determines if a connection should be retried based on the exception
     /// </summary>

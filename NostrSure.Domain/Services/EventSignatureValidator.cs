@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Validation;
 
@@ -30,10 +28,10 @@ public sealed class EventSignatureValidator : IEventSignatureValidator
         // Quick validation of required fields
         if (string.IsNullOrWhiteSpace(evt.Sig))
             return ValidationResult.Failure("Signature is empty", "EMPTY_SIGNATURE");
-            
+
         if (string.IsNullOrWhiteSpace(evt.Pubkey?.Value))
             return ValidationResult.Failure("Pubkey is empty", "EMPTY_PUBKEY");
-            
+
         if (string.IsNullOrWhiteSpace(evt.Id))
             return ValidationResult.Failure("Event ID is empty", "EMPTY_EVENT_ID");
 
@@ -55,8 +53,8 @@ public sealed class EventSignatureValidator : IEventSignatureValidator
 
             // Verify signature using cryptographic service
             var isValid = _cryptographicService.VerifySchnorrSignature(sigBytes, eventIdBytes, pubkeyBytes);
-            
-            return isValid 
+
+            return isValid
                 ? ValidationResult.Success()
                 : ValidationResult.Failure("Signature verification failed", "SIGNATURE_VERIFICATION_FAILED");
         }

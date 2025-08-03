@@ -11,17 +11,17 @@ public interface IConnectionStateManager
     /// Current WebSocket state
     /// </summary>
     WebSocketState CurrentState { get; }
-    
+
     /// <summary>
     /// Indicates if the connection is currently active
     /// </summary>
     bool IsConnected { get; }
-    
+
     /// <summary>
     /// Event raised when the connection state changes
     /// </summary>
     event EventHandler<WebSocketState>? StateChanged;
-    
+
     /// <summary>
     /// Updates the current connection state
     /// </summary>

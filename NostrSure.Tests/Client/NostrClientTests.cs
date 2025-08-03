@@ -1,11 +1,9 @@
-using System.Net.WebSockets;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.ValueObjects;
 using NostrSure.Infrastructure.Client.Abstractions;
 using NostrSure.Infrastructure.Client.Implementation;
 using NostrSure.Infrastructure.Client.Messages;
+using System.Net.WebSockets;
 
 namespace NostrSure.Tests.Client;
 
@@ -30,7 +28,7 @@ public class NostrClientTests
         _subscriptionManager = new InMemorySubscriptionManager();
         _eventDispatcher = new DefaultEventDispatcher();
         _healthPolicy = new RetryBackoffPolicy(TimeSpan.FromMilliseconds(10), TimeSpan.FromSeconds(1), 3);
-        
+
         _client = new NostrClient(
             _webSocketFactory,
             _messageSerializer,
@@ -104,7 +102,7 @@ public class NostrClientTests
         // Assert
         Assert.IsTrue(_subscriptionManager.HasSubscription(subscriptionId));
         Assert.IsTrue(_webSocketConnection.SentMessages.Count > 0);
-        
+
         var sentMessage = _webSocketConnection.SentMessages.Last();
         Assert.IsTrue(sentMessage.Contains("REQ"));
         Assert.IsTrue(sentMessage.Contains(subscriptionId));
@@ -136,7 +134,7 @@ public class NostrClientTests
 
         // Assert
         Assert.IsFalse(_subscriptionManager.HasSubscription(subscriptionId));
-        
+
         var sentMessage = _webSocketConnection.SentMessages.Last();
         Assert.IsTrue(sentMessage.Contains("CLOSE"));
         Assert.IsTrue(sentMessage.Contains(subscriptionId));
@@ -154,7 +152,7 @@ public class NostrClientTests
 
         // Assert
         Assert.IsTrue(_webSocketConnection.SentMessages.Count > 0);
-        
+
         var sentMessage = _webSocketConnection.SentMessages.Last();
         Assert.IsTrue(sentMessage.Contains("EVENT"));
         Assert.IsTrue(sentMessage.Contains(nostrEvent.Id));
@@ -177,7 +175,7 @@ public class NostrClientTests
         // Arrange
         await _client.ConnectAsync("wss://relay.example.com");
         var subscriptionId = "sub1";
-        
+
         // Simulate receiving an EOSE message
         var eoseJson = """["EOSE", "sub1"]""";
         _webSocketConnection.SimulateMessageReceived(eoseJson);
@@ -185,7 +183,7 @@ public class NostrClientTests
         // Act
         var messages = new List<NostrMessage>();
         var cancellationToken = new CancellationTokenSource(TimeSpan.FromMilliseconds(100)).Token;
-        
+
         try
         {
             await foreach (var message in _client.StreamAsync(subscriptionId, cancellationToken))
@@ -284,7 +282,7 @@ public class NostrClientTests
         {
             if (State != WebSocketState.Open)
                 throw new InvalidOperationException("WebSocket is not connected");
-                
+
             SentMessages.Add(message);
             return Task.CompletedTask;
         }

@@ -1,7 +1,6 @@
-using System.Net.WebSockets;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ObjectPool;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Net.WebSockets;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -58,10 +57,10 @@ public sealed class RefactoredWebSocketConnection : IWebSocketConnection
     public async Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
     {
         _logger?.LogInformation("Connecting to {Uri}", uri);
-        
+
         await _connectionManager.ConnectAsync(uri, cancellationToken);
         await _messageReceiver.StartReceivingAsync(cancellationToken);
-        
+
         _logger?.LogInformation("Successfully connected and started receiving messages");
     }
 
@@ -80,10 +79,10 @@ public sealed class RefactoredWebSocketConnection : IWebSocketConnection
                                 CancellationToken cancellationToken = default)
     {
         _logger?.LogInformation("Closing WebSocket connection");
-        
+
         await _messageReceiver.StopReceivingAsync();
         await _connectionManager.CloseAsync(closeStatus, statusDescription, cancellationToken);
-        
+
         _logger?.LogInformation("WebSocket connection closed");
     }
 
@@ -92,10 +91,10 @@ public sealed class RefactoredWebSocketConnection : IWebSocketConnection
         if (!_disposed)
         {
             _logger?.LogDebug("Disposing RefactoredWebSocketConnection");
-            
+
             _messageReceiver?.Dispose();
             _connectionManager?.Dispose();
-            
+
             _disposed = true;
         }
     }

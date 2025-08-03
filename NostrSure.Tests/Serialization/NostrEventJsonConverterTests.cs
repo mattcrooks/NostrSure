@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Domain.Entities;
-using NostrSure.Infrastructure.Serialization;
 using NostrSure.Domain.ValueObjects;
+using NostrSure.Infrastructure.Serialization;
+using System.Text.Json;
 
 namespace NostrSure.Tests.Serialization
 {
@@ -38,7 +35,7 @@ namespace NostrSure.Tests.Serialization
                 ]
             }
             """;
-            
+
             var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
 
             Assert.IsNotNull(evt);
@@ -120,7 +117,7 @@ namespace NostrSure.Tests.Serialization
             Assert.AreEqual(evt.Sig, evt2.Sig);
 
             Assert.AreEqual(evt.Tags.Count, evt2.Tags.Count);
-            
+
             // Compare tags individually
             for (int i = 0; i < evt.Tags.Count; i++)
             {

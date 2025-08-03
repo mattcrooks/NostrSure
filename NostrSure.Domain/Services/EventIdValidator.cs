@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Validation;
 
@@ -28,21 +26,21 @@ public sealed class EventIdValidator : IEventIdValidator
         try
         {
             var calculatedId = _eventIdCalculator.CalculateEventId(evt);
-            
+
             if (evt.Id != calculatedId)
             {
                 return ValidationResult.Failure(
-                    $"Event ID mismatch. Expected: {calculatedId}, Got: {evt.Id}", 
+                    $"Event ID mismatch. Expected: {calculatedId}, Got: {evt.Id}",
                     "EVENT_ID_MISMATCH");
             }
-            
+
             return ValidationResult.Success();
         }
         catch (System.Exception ex)
         {
             return ValidationResult.Failure(
-                $"Exception during event ID validation: {ex.Message}", 
-                ex, 
+                $"Exception during event ID validation: {ex.Message}",
+                ex,
                 ValidationSeverity.Critical);
         }
     }

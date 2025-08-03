@@ -1,7 +1,7 @@
-using System.Net.WebSockets;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Net.WebSockets;
+using System.Text;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -35,14 +35,14 @@ public sealed class MessageSender : IMessageSender
         try
         {
             _logger?.LogDebug("Sending message: {MessageLength} characters", message.Length);
-            
+
             var buffer = Encoding.UTF8.GetBytes(message);
             await _webSocket.SendAsync(
                 new ArraySegment<byte>(buffer),
                 WebSocketMessageType.Text,
                 endOfMessage: true,
                 cancellationToken);
-                
+
             _logger?.LogDebug("Message sent successfully");
         }
         catch (Exception ex)

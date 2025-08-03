@@ -38,11 +38,11 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds the modular Nostr validation pipeline with custom memory cache configuration
     /// </summary>
-    public static IServiceCollection AddNostrValidation(this IServiceCollection services, 
+    public static IServiceCollection AddNostrValidation(this IServiceCollection services,
         System.Action<MemoryCacheOptions> configureCacheOptions)
     {
         services.AddMemoryCache(configureCacheOptions);
-        
+
         // Add validation services without adding default memory cache
         services.TryAddSingleton<INostrEventValidator, ModularNostrEventValidator>();
         services.TryAddSingleton<IEventSignatureValidator, EventSignatureValidator>();

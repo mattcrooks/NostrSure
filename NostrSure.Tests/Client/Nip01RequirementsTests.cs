@@ -1,8 +1,7 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NostrSure.Infrastructure.Client.Implementation;
-using NostrSure.Infrastructure.Client.Messages;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.ValueObjects;
+using NostrSure.Infrastructure.Client.Implementation;
+using NostrSure.Infrastructure.Client.Messages;
 
 namespace NostrSure.Tests.Client;
 
@@ -31,7 +30,7 @@ public class Nip01RequirementsTests
         _subscriptionManager = new InMemorySubscriptionManager();
         _eventDispatcher = new DefaultEventDispatcher();
         _healthPolicy = new RetryBackoffPolicy(TimeSpan.FromMilliseconds(10), TimeSpan.FromSeconds(1), 5);
-        
+
         _client = new NostrClient(
             _webSocketFactory,
             _messageSerializer,
@@ -51,9 +50,9 @@ public class Nip01RequirementsTests
     {
         // Requirement R1: Client MUST open a WebSocket connection to a Relay.
         var relayUrl = "wss://relay.example.com";
-        
+
         await _client.ConnectAsync(relayUrl);
-        
+
         Assert.IsTrue(_client.IsConnected);
         Assert.IsTrue(_webSocketConnection.ConnectAsyncCalled);
     }
@@ -63,13 +62,13 @@ public class Nip01RequirementsTests
     {
         // Requirement R2: Client MUST send JSON-array messages only (no objects or other types).
         var validMessage = new object[] { "REQ", "sub1", new { kinds = new[] { 1 } } };
-        
+
         // Should not throw for valid JSON array
         var json = _messageSerializer.Serialize(validMessage);
         Assert.IsNotNull(json);
         Assert.IsTrue(json.StartsWith("["));
         Assert.IsTrue(json.EndsWith("]"));
-        
+
         // Should throw for invalid format
         Assert.ThrowsException<ArgumentException>(() => _messageSerializer.Serialize(new object[0]));
         Assert.ThrowsException<ArgumentException>(() => _messageSerializer.Serialize(null!));
@@ -80,12 +79,12 @@ public class Nip01RequirementsTests
     {
         // Requirement R3: Client MUST implement ["REQ", <sub_id>, <filter>...] to subscribe.
         await _client.ConnectAsync("wss://relay.example.com");
-        
+
         var subscriptionId = "sub1";
         var filter = new Dictionary<string, object> { { "kinds", new[] { 1 } } };
-        
+
         await _client.SubscribeAsync(subscriptionId, filter);
-        
+
         Assert.IsTrue(_subscriptionManager.HasSubscription(subscriptionId));
         Assert.IsTrue(_webSocketConnection.SentMessages.Any(m => m.Contains("REQ") && m.Contains(subscriptionId)));
     }
@@ -95,13 +94,13 @@ public class Nip01RequirementsTests
     {
         // Requirement R4: Client MUST implement ["CLOSE", <sub_id>] to cancel a subscription.
         await _client.ConnectAsync("wss://relay.example.com");
-        
+
         var subscriptionId = "sub1";
         var filter = new Dictionary<string, object> { { "kinds", new[] { 1 } } };
         await _client.SubscribeAsync(subscriptionId, filter);
-        
+
         await _client.CloseSubscriptionAsync(subscriptionId);
-        
+
         Assert.IsFalse(_subscriptionManager.HasSubscription(subscriptionId));
         Assert.IsTrue(_webSocketConnection.SentMessages.Any(m => m.Contains("CLOSE") && m.Contains(subscriptionId)));
     }
@@ -111,10 +110,10 @@ public class Nip01RequirementsTests
     {
         // Requirement R5: Client MUST implement ["EVENT", <event>] to publish signed events.
         await _client.ConnectAsync("wss://relay.example.com");
-        
+
         var nostrEvent = CreateTestEvent();
         await _client.PublishAsync(nostrEvent);
-        
+
         Assert.IsTrue(_webSocketConnection.SentMessages.Any(m => m.Contains("EVENT") && m.Contains(nostrEvent.Id)));
     }
 
@@ -133,9 +132,9 @@ public class Nip01RequirementsTests
             "sig": "test_signature_123"
         }]
         """;
-        
+
         var message = _messageSerializer.Deserialize(eventJson);
-        
+
         Assert.IsInstanceOfType<RelayEventMessage>(message);
         var eventMessage = (RelayEventMessage)message;
         Assert.AreEqual("sub1", eventMessage.SubscriptionId);
@@ -148,9 +147,9 @@ public class Nip01RequirementsTests
     {
         // Requirement R7: Client MUST handle ["EOSE", <sub_id>] to detect end-of-stored-events.
         var eoseJson = """["EOSE", "sub1"]""";
-        
+
         var message = _messageSerializer.Deserialize(eoseJson);
-        
+
         Assert.IsInstanceOfType<EoseMessage>(message);
         var eoseMessage = (EoseMessage)message;
         Assert.AreEqual("sub1", eoseMessage.SubscriptionId);
@@ -161,9 +160,9 @@ public class Nip01RequirementsTests
     {
         // Requirement R8: Client MUST handle ["NOTICE", <message>] from relay gracefully.
         var noticeJson = """["NOTICE", "test warning message"]""";
-        
+
         var message = _messageSerializer.Deserialize(noticeJson);
-        
+
         Assert.IsInstanceOfType<NoticeMessage>(message);
         var noticeMessage = (NoticeMessage)message;
         Assert.AreEqual("test warning message", noticeMessage.Message);
@@ -174,9 +173,9 @@ public class Nip01RequirementsTests
     {
         // Requirement R9: Client MUST handle ["CLOSED", <sub_id>, <message>] from relay indicating server-side closure.
         var closedJson = """["CLOSED", "sub1", "subscription ended by server"]""";
-        
+
         var message = _messageSerializer.Deserialize(closedJson);
-        
+
         Assert.IsInstanceOfType<ClosedMessage>(message);
         var closedMessage = (ClosedMessage)message;
         Assert.AreEqual("sub1", closedMessage.SubscriptionId);
@@ -189,7 +188,7 @@ public class Nip01RequirementsTests
         // Requirement R10: Client MUST generate and verify event IDs and Schnorr signatures on secp256k1 per spec.
         // Note: This validates structure. Cryptographic validation would require the existing NostrEventValidator
         var nostrEvent = CreateTestEvent();
-        
+
         Assert.IsNotNull(nostrEvent.Id);
         Assert.IsNotNull(nostrEvent.Pubkey);
         Assert.IsNotNull(nostrEvent.Sig);
@@ -202,12 +201,12 @@ public class Nip01RequirementsTests
     {
         // Requirement R11: Client MUST reconnect on transient network errors or relay-initiated closures.
         var policy = new RetryBackoffPolicy(maxRetries: 5);
-        
+
         Assert.IsTrue(policy.ShouldRetry(1));
         Assert.IsTrue(policy.ShouldRetry(3));
         Assert.IsTrue(policy.ShouldRetry(5));
         Assert.IsFalse(policy.ShouldRetry(6));
-        
+
         var delay = policy.GetDelay(1);
         Assert.IsTrue(delay > TimeSpan.Zero);
     }
@@ -218,16 +217,16 @@ public class Nip01RequirementsTests
         // Requirement R12: Client MUST retry or back off on relay rate-limits or failures (OK false responses).
         var okAcceptedJson = """["OK", "event123", true, "accepted"]""";
         var okDeniedJson = """["OK", "event123", false, "spam"]""";
-        
+
         var acceptedMessage = _messageSerializer.Deserialize(okAcceptedJson);
         var deniedMessage = _messageSerializer.Deserialize(okDeniedJson);
-        
+
         Assert.IsInstanceOfType<OkMessage>(acceptedMessage);
         Assert.IsInstanceOfType<OkMessage>(deniedMessage);
-        
+
         var okAccepted = (OkMessage)acceptedMessage;
         var okDenied = (OkMessage)deniedMessage;
-        
+
         Assert.IsTrue(okAccepted.Accepted);
         Assert.IsFalse(okDenied.Accepted);
         Assert.AreEqual("spam", okDenied.Message);
@@ -283,7 +282,7 @@ public class Nip01RequirementsTests
         {
             if (State != System.Net.WebSockets.WebSocketState.Open)
                 throw new InvalidOperationException("WebSocket is not connected");
-                
+
             SentMessages.Add(message);
             return Task.CompletedTask;
         }

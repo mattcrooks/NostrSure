@@ -1,6 +1,6 @@
-using System.Net.WebSockets;
 using Microsoft.Extensions.Logging;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Net.WebSockets;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -37,14 +37,14 @@ public sealed class ConnectionManager : IConnectionManager
         try
         {
             _logger?.LogDebug("Attempting to connect to {Uri}", uri);
-            
+
             var combinedToken = CancellationTokenSource
                 .CreateLinkedTokenSource(cancellationToken, _cancellationTokenSource.Token)
                 .Token;
-                
+
             await _webSocket.ConnectAsync(uri, combinedToken);
             _stateManager.UpdateState(WebSocketState.Open);
-            
+
             _logger?.LogInformation("Successfully connected to {Uri}", uri);
         }
         catch (Exception ex)
@@ -62,7 +62,7 @@ public sealed class ConnectionManager : IConnectionManager
         try
         {
             _logger?.LogDebug("Closing WebSocket connection with status {CloseStatus}", closeStatus);
-            
+
             if (_webSocket.State == WebSocketState.Open)
             {
                 await _webSocket.CloseAsync(closeStatus, statusDescription, cancellationToken);

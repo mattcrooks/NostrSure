@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NostrSure.Infrastructure.Client.Abstractions;
 using NostrSure.Infrastructure.Client;
+using NostrSure.Infrastructure.Client.Abstractions;
 
 namespace NosrtSure.CLI;
 

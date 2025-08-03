@@ -1,8 +1,8 @@
-using System.Net.WebSockets;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Net.WebSockets;
+using System.Text;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -26,7 +26,7 @@ public class RefactoredWebSocketFactory : IWebSocketFactory
     {
         // Create shared WebSocket instance
         var webSocket = new ClientWebSocket();
-        
+
         // Create component implementations
         var stateManager = new ConnectionStateManager(_loggerFactory?.CreateLogger<ConnectionStateManager>());
         var errorHandler = new ConnectionErrorHandler(_loggerFactory?.CreateLogger<ConnectionErrorHandler>());

@@ -1,12 +1,9 @@
-using System;
-using System.Text.Json;
-using System.Text.Encodings.Web;
-using System.Security.Cryptography;
-using System.Text;
-using System.Linq;
-using System.Collections.Generic;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Validation;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace NostrSure.Domain.Services;
 
@@ -31,13 +28,13 @@ public sealed class SimpleEventIdCalculator : IEventIdCalculator
     public string CalculateEventId(NostrEvent evt)
     {
         // Match the exact legacy implementation format for compatibility
-        var tagsArrays = evt.Tags.Select(tag => 
+        var tagsArrays = evt.Tags.Select(tag =>
         {
             var array = new List<string> { tag.Name };
             array.AddRange(tag.Values);
             return array.ToArray();
         }).ToArray();
-        
+
         var eventArray = new object[]
         {
             0,
@@ -47,9 +44,9 @@ public sealed class SimpleEventIdCalculator : IEventIdCalculator
             tagsArrays,
             evt.Content
         };
-        
+
         var serialized = JsonSerializer.Serialize(eventArray, _jsonOptions);
-        
+
         var utf8Bytes = Encoding.UTF8.GetBytes(serialized);
         var hash = NBitcoin.Crypto.Hashes.SHA256(utf8Bytes);
         return Convert.ToHexString(hash).ToLowerInvariant();

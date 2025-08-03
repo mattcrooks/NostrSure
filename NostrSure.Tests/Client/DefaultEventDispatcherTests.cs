@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Infrastructure.Client.Implementation;
 using NostrSure.Infrastructure.Client.Messages;
 
@@ -22,7 +21,7 @@ public class DefaultEventDispatcherTests
         // Arrange
         var called = false;
         var receivedMessage = (EoseMessage?)null;
-        
+
         _dispatcher.OnEndOfStoredEvents += msg =>
         {
             called = true;
@@ -47,7 +46,7 @@ public class DefaultEventDispatcherTests
         // Arrange
         var called = false;
         var receivedMessage = (NoticeMessage?)null;
-        
+
         _dispatcher.OnNotice += msg =>
         {
             called = true;
@@ -72,7 +71,7 @@ public class DefaultEventDispatcherTests
         // Arrange
         var called = false;
         var receivedMessage = (ClosedMessage?)null;
-        
+
         _dispatcher.OnClosed += msg =>
         {
             called = true;
@@ -98,7 +97,7 @@ public class DefaultEventDispatcherTests
         // Arrange
         var called = false;
         var receivedMessage = (OkMessage?)null;
-        
+
         _dispatcher.OnOk += msg =>
         {
             called = true;
@@ -125,13 +124,13 @@ public class DefaultEventDispatcherTests
         // Arrange
         var handler1Called = false;
         var handler2Called = false;
-        
+
         _dispatcher.OnNotice += _ =>
         {
             handler1Called = true;
             return Task.CompletedTask;
         };
-        
+
         _dispatcher.OnNotice += _ =>
         {
             handler2Called = true;

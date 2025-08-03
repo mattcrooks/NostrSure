@@ -1,10 +1,10 @@
-using System.Collections.Concurrent;
-using System.Net.WebSockets;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using NostrSure.Domain.Entities;
 using NostrSure.Infrastructure.Client.Abstractions;
 using NostrSure.Infrastructure.Client.Messages;
+using System.Collections.Concurrent;
+using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -88,10 +88,10 @@ public class NostrClient : INostrClient
                     combinedToken, timeoutCts.Token);
 
                 await _connection.ConnectAsync(uri, timeoutToken.Token);
-                
+
                 RelayUrl = relayUrl;
                 _logger?.LogInformation("Connected to relay: {RelayUrl}", relayUrl);
-                
+
                 return; // Success
             }
             catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
@@ -126,10 +126,10 @@ public class NostrClient : INostrClient
         try
         {
             _subscriptionManager.AddSubscription(subscriptionId);
-            
+
             var reqMessage = new object[] { "REQ", subscriptionId, filter };
             var json = _messageSerializer.Serialize(reqMessage);
-            
+
             await _connection!.SendAsync(json, cancellationToken);
             _logger?.LogDebug("Sent subscription: {SubscriptionId}", subscriptionId);
         }
@@ -153,10 +153,10 @@ public class NostrClient : INostrClient
         {
             var closeMessage = new object[] { "CLOSE", subscriptionId };
             var json = _messageSerializer.Serialize(closeMessage);
-            
+
             await _connection!.SendAsync(json, cancellationToken);
             _subscriptionManager.RemoveSubscription(subscriptionId);
-            
+
             _logger?.LogDebug("Closed subscription: {SubscriptionId}", subscriptionId);
         }
         catch (Exception ex)
@@ -177,7 +177,7 @@ public class NostrClient : INostrClient
         {
             var eventMessage = new object[] { "EVENT", nostrEvent };
             var json = _messageSerializer.Serialize(eventMessage);
-            
+
             await _connection!.SendAsync(json, cancellationToken);
             _logger?.LogDebug("Published event: {EventId}", nostrEvent.Id);
         }
@@ -246,7 +246,7 @@ public class NostrClient : INostrClient
     private void OnConnectionDisconnected(object? sender, EventArgs e)
     {
         _logger?.LogWarning("WebSocket disconnected from {RelayUrl}", RelayUrl);
-        
+
         // Attempt reconnection in background
         _ = Task.Run(async () =>
         {

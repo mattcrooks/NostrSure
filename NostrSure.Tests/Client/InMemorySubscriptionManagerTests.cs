@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Infrastructure.Client.Implementation;
 
 namespace NostrSure.Tests.Client;
@@ -80,7 +79,7 @@ public class InMemorySubscriptionManagerTests
         var sub1 = "test_sub_1";
         var sub2 = "test_sub_2";
         var sub3 = "test_sub_3";
-        
+
         _manager.AddSubscription(sub1);
         _manager.AddSubscription(sub2);
         _manager.AddSubscription(sub3);

@@ -1,9 +1,9 @@
-using System.Buffers;
-using System.Net.WebSockets;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 using NostrSure.Infrastructure.Client.Abstractions;
+using System.Buffers;
+using System.Net.WebSockets;
+using System.Text;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -14,7 +14,7 @@ public sealed class MessageReceiver : IMessageReceiver
 {
     private static readonly ArrayPool<byte> BufferPool = ArrayPool<byte>.Shared;
     private readonly ObjectPool<StringBuilder> _stringBuilderPool;
-    
+
     private readonly ClientWebSocket _webSocket;
     private readonly IConnectionErrorHandler _errorHandler;
     private readonly IConnectionStateManager _stateManager;
@@ -47,7 +47,7 @@ public sealed class MessageReceiver : IMessageReceiver
 
         var buffer = BufferPool.Rent(8192);
         var stringBuilder = _stringBuilderPool.Get();
-        
+
         try
         {
             var combinedToken = CancellationTokenSource
@@ -59,7 +59,7 @@ public sealed class MessageReceiver : IMessageReceiver
             {
                 var segment = new ArraySegment<byte>(buffer);
                 receiveResult = await _webSocket.ReceiveAsync(segment, combinedToken);
-                
+
                 if (receiveResult.MessageType == WebSocketMessageType.Text)
                 {
                     stringBuilder.Append(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
@@ -106,7 +106,7 @@ public sealed class MessageReceiver : IMessageReceiver
     {
         _logger?.LogDebug("Stopping background message receiving");
         _receiveCancellation.Cancel();
-        
+
         if (_receiveTask != null)
         {
             try
@@ -127,10 +127,10 @@ public sealed class MessageReceiver : IMessageReceiver
     private async Task ReceiveLoopAsync(CancellationToken cancellationToken)
     {
         _logger?.LogDebug("Message receive loop started");
-        
+
         try
         {
-            while (!cancellationToken.IsCancellationRequested && 
+            while (!cancellationToken.IsCancellationRequested &&
                    _webSocket.State == WebSocketState.Open)
             {
                 var message = await ReceiveAsync(cancellationToken);

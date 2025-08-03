@@ -1,8 +1,8 @@
-using System.Text.Json;
 using NostrSure.Domain.Entities;
 using NostrSure.Infrastructure.Client.Abstractions;
 using NostrSure.Infrastructure.Client.Messages;
 using NostrSure.Infrastructure.Serialization;
+using System.Text.Json;
 
 namespace NostrSure.Infrastructure.Client.Implementation;
 
@@ -79,7 +79,7 @@ public class JsonMessageSerializer : IMessageSerializer
     {
         var subscriptionId = root[1].GetString()!;
         var eventJson = root[2].GetRawText();
-        
+
         var nostrEvent = JsonSerializer.Deserialize<NostrEvent>(eventJson, _options);
         if (nostrEvent == null)
             throw new ArgumentException("Failed to parse NostrEvent from relay EVENT message");

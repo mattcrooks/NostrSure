@@ -1,8 +1,8 @@
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ObjectPool;
 using NostrSure.Infrastructure.Client.Abstractions;
 using NostrSure.Infrastructure.Client.Implementation;
+using System.Text;
 
 namespace NostrSure.Infrastructure.Client;
 
@@ -26,16 +26,16 @@ public static class ServiceCollectionExtensions
 
         // Refactored WebSocket components
         services.AddSingleton<IWebSocketFactory, RefactoredWebSocketFactory>();
-        
+
         // Core services
         services.AddSingleton<IMessageSerializer, JsonMessageSerializer>();
         services.AddSingleton<ISubscriptionManager, InMemorySubscriptionManager>();
         services.AddSingleton<IEventDispatcher, DefaultEventDispatcher>();
         services.AddSingleton<IHealthPolicy, RetryBackoffPolicy>();
-        
+
         // Main client
         services.AddTransient<INostrClient, NostrClient>();
-        
+
         return services;
     }
 
@@ -57,19 +57,19 @@ public static class ServiceCollectionExtensions
 
         // Refactored WebSocket components
         services.AddSingleton<IWebSocketFactory, RefactoredWebSocketFactory>();
-        
+
         // Core services
         services.AddSingleton<IMessageSerializer, JsonMessageSerializer>();
         services.AddSingleton<ISubscriptionManager, InMemorySubscriptionManager>();
         services.AddSingleton<IEventDispatcher, DefaultEventDispatcher>();
-        
+
         // Custom health policy
-        services.AddSingleton<IHealthPolicy>(provider => 
+        services.AddSingleton<IHealthPolicy>(provider =>
             new RetryBackoffPolicy(baseDelay, maxDelay, maxRetries));
-        
+
         // Main client
         services.AddTransient<INostrClient, NostrClient>();
-        
+
         return services;
     }
 }

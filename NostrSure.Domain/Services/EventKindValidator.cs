@@ -1,7 +1,6 @@
-using System;
 using NostrSure.Domain.Entities;
-using NostrSure.Domain.ValueObjects;
 using NostrSure.Domain.Validation;
+using NostrSure.Domain.ValueObjects;
 
 namespace NostrSure.Domain.Services;
 
@@ -15,10 +14,10 @@ public sealed class EventKindValidator : IEventKindValidator
         if (!Enum.IsDefined(typeof(EventKind), evt.Kind))
         {
             return ValidationResult.Failure(
-                $"Unknown event kind: {evt.Kind}", 
+                $"Unknown event kind: {evt.Kind}",
                 "UNKNOWN_EVENT_KIND");
         }
-        
+
         return ValidationResult.Success();
     }
 }

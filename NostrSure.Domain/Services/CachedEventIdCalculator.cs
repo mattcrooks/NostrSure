@@ -1,13 +1,10 @@
-using System;
-using System.Text.Json;
-using System.Text.Encodings.Web;
-using System.Security.Cryptography;
-using System.Text;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Validation;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace NostrSure.Domain.Services;
 
@@ -35,18 +32,18 @@ public sealed class CachedEventIdCalculator : IEventIdCalculator
     {
         // Create cache key based on event content that affects the hash
         var cacheKey = CreateCacheKey(evt);
-        
+
         if (_cache.TryGetValue(cacheKey, out string? cachedId))
             return cachedId!;
 
         // Match the exact legacy implementation format for compatibility
-        var tagsArrays = evt.Tags.Select(tag => 
+        var tagsArrays = evt.Tags.Select(tag =>
         {
             var array = new List<string> { tag.Name };
             array.AddRange(tag.Values);
             return array.ToArray();
         }).ToArray();
-        
+
         var eventArray = new object[]
         {
             0,
@@ -56,13 +53,13 @@ public sealed class CachedEventIdCalculator : IEventIdCalculator
             tagsArrays,
             evt.Content
         };
-        
+
         var serialized = JsonSerializer.Serialize(eventArray, _jsonOptions);
-        
+
         var utf8Bytes = Encoding.UTF8.GetBytes(serialized);
         var hash = NBitcoin.Crypto.Hashes.SHA256(utf8Bytes);
         var eventId = Convert.ToHexString(hash).ToLowerInvariant();
-        
+
         // Cache for 5 minutes to balance memory usage and performance
         _cache.Set(cacheKey, eventId, TimeSpan.FromMinutes(5));
         return eventId;
@@ -81,7 +78,7 @@ public sealed class CachedEventIdCalculator : IEventIdCalculator
         keyBuilder.Append(':');
         keyBuilder.Append(evt.Content.GetHashCode());
         keyBuilder.Append(':');
-        
+
         // Include a hash of tags to handle tag changes
         if (evt.Tags.Count > 0)
         {
@@ -96,7 +93,7 @@ public sealed class CachedEventIdCalculator : IEventIdCalculator
             }
             keyBuilder.Append(tagsHash);
         }
-        
+
         return keyBuilder.ToString();
     }
 }

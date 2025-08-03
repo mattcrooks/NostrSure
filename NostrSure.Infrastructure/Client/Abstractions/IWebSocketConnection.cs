@@ -11,8 +11,8 @@ public interface IWebSocketConnection : IDisposable
     Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
     Task SendAsync(string message, CancellationToken cancellationToken = default);
     Task<string> ReceiveAsync(CancellationToken cancellationToken = default);
-    Task CloseAsync(WebSocketCloseStatus closeStatus = WebSocketCloseStatus.NormalClosure, 
-                    string? statusDescription = null, 
+    Task CloseAsync(WebSocketCloseStatus closeStatus = WebSocketCloseStatus.NormalClosure,
+                    string? statusDescription = null,
                     CancellationToken cancellationToken = default);
     event EventHandler<string>? MessageReceived;
     event EventHandler<Exception>? ErrorOccurred;

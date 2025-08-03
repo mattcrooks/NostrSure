@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Infrastructure.Client.Implementation;
 
 namespace NostrSure.Tests.Client;
@@ -58,12 +57,12 @@ public class RetryBackoffPolicyTests
         Assert.IsTrue(delay1Samples.All(d => d > TimeSpan.Zero));
         Assert.IsTrue(delay2Samples.All(d => d > TimeSpan.Zero));
         Assert.IsTrue(delay3Samples.All(d => d > TimeSpan.Zero));
-        
+
         // Average delays should follow exponential pattern (jitter cancels out over samples)
         var avgDelay1 = delay1Samples.Select(d => d.TotalMilliseconds).Average();
         var avgDelay2 = delay2Samples.Select(d => d.TotalMilliseconds).Average();
         var avgDelay3 = delay3Samples.Select(d => d.TotalMilliseconds).Average();
-        
+
         // Verify exponential growth in averages (should be approximately 2x)
         Assert.IsTrue(avgDelay2 >= avgDelay1 * 1.7, $"Expected avgDelay2 ({avgDelay2}) >= avgDelay1 * 1.7 ({avgDelay1 * 1.7})");
         Assert.IsTrue(avgDelay3 >= avgDelay2 * 1.7, $"Expected avgDelay3 ({avgDelay3}) >= avgDelay2 * 1.7 ({avgDelay2 * 1.7})");
@@ -150,7 +149,7 @@ public class RetryBackoffPolicyTests
         Assert.IsTrue(defaultPolicy.ShouldRetry(1));
         Assert.IsTrue(defaultPolicy.ShouldRetry(5));
         Assert.IsFalse(defaultPolicy.ShouldRetry(6));
-        
+
         var delay = defaultPolicy.GetDelay(1);
         Assert.IsTrue(delay > TimeSpan.Zero);
     }

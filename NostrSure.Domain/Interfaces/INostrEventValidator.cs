@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Validation;
 
@@ -15,27 +13,27 @@ public interface INostrEventValidator
     /// Validates a Nostr event asynchronously using the full validation pipeline (new)
     /// </summary>
     Task<ValidationResult> ValidateAsync(NostrEvent evt, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Validates a Nostr event synchronously using the full validation pipeline (new)
     /// </summary>
     ValidationResult Validate(NostrEvent evt);
-    
+
     /// <summary>
     /// Legacy method: Validates the cryptographic signature of an event
     /// </summary>
     bool ValidateSignature(NostrEvent evt, out string error);
-    
+
     /// <summary>
     /// Legacy method: Validates the event kind according to supported types
     /// </summary>
     bool ValidateKind(NostrEvent evt, out string error);
-    
+
     /// <summary>
     /// Legacy method: Validates the tag structure and content
     /// </summary>
     bool ValidateTags(NostrEvent evt, out string error);
-    
+
     /// <summary>
     /// Legacy method: Validates the event ID matches the calculated hash
     /// </summary>

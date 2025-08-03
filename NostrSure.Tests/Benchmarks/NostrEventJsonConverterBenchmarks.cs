@@ -1,16 +1,12 @@
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Toolchains.InProcess.Emit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.ValueObjects;
 using NostrSure.Infrastructure.Serialization;
+using System.Text.Json;
 
 namespace NostrSure.Tests.Benchmarks;
 
@@ -270,7 +266,7 @@ public class NostrEventJsonConverterBenchmarks
 
         var tagArrays = JsonSerializer.Deserialize<List<List<string>>>(json);
         var tags = new List<NostrTag>();
-        
+
         foreach (var tagArray in tagArrays!)
         {
             tags.Add(NostrTag.FromArray(tagArray));

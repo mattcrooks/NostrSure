@@ -1,8 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ObjectPool;
 using NostrSure.Infrastructure.Client.Implementation;
-using System.Text;
 
 namespace NostrSure.Tests.Client.Connection;
 
@@ -47,7 +43,7 @@ public class ConnectionStateManagerTests
         // Arrange
         var eventFired = false;
         var receivedState = System.Net.WebSockets.WebSocketState.None;
-        
+
         _stateManager.StateChanged += (sender, state) =>
         {
             eventFired = true;
@@ -68,7 +64,7 @@ public class ConnectionStateManagerTests
         // Arrange
         _stateManager.UpdateState(System.Net.WebSockets.WebSocketState.Open);
         var eventFired = false;
-        
+
         _stateManager.StateChanged += (sender, state) =>
         {
             eventFired = true;

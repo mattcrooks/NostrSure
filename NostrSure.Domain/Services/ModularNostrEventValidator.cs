@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NostrSure.Domain.Entities;
 using NostrSure.Domain.Interfaces;
@@ -36,14 +34,14 @@ public sealed class ModularNostrEventValidator : INostrEventValidator
     {
         // Fast path: validate cheap operations first
         var kindResult = _kindValidator.ValidateKind(evt);
-        if (!kindResult.IsValid) 
+        if (!kindResult.IsValid)
         {
             _logger?.LogWarning("Event kind validation failed: {Error}", kindResult.Error?.Message);
             return kindResult;
         }
 
         var tagResult = _tagValidator.ValidateTags(evt);
-        if (!tagResult.IsValid) 
+        if (!tagResult.IsValid)
         {
             _logger?.LogWarning("Event tag validation failed: {Error}", tagResult.Error?.Message);
             return tagResult;
@@ -57,7 +55,7 @@ public sealed class ModularNostrEventValidator : INostrEventValidator
         await Task.WhenAll(eventIdTask, signatureTask);
 
         var eventIdResult = eventIdTask.Result;
-        if (!eventIdResult.IsValid) 
+        if (!eventIdResult.IsValid)
         {
             _logger?.LogWarning("Event ID validation failed: {Error}", eventIdResult.Error?.Message);
             return eventIdResult;
@@ -74,7 +72,7 @@ public sealed class ModularNostrEventValidator : INostrEventValidator
         return ValidationResult.Success();
     }
 
-    public ValidationResult Validate(NostrEvent evt) 
+    public ValidationResult Validate(NostrEvent evt)
     {
         return ValidateAsync(evt).GetAwaiter().GetResult();
     }

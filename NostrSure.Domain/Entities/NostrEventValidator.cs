@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using NostrSure.Domain.ValueObjects;
-using NBitcoin.Secp256k1;
 using NostrSure.Domain.Interfaces;
 using NostrSure.Domain.Services;
 using NostrSure.Domain.Validation;
+using NostrSure.Domain.ValueObjects;
+using System.Text;
+using System.Text.Json;
 
 namespace NostrSure.Domain.Entities;
 
@@ -110,7 +104,7 @@ public sealed class NostrEventValidator : INostrEventValidator
                 error = "Signature verification failed.";
                 return false;
             }
-            
+
             error = string.Empty;
             return true;
         }
@@ -159,7 +153,7 @@ public sealed class NostrEventValidator : INostrEventValidator
             error = "Tags are null.";
             return false;
         }
-        
+
         foreach (var tag in evt.Tags)
         {
             if (tag == null)
@@ -167,26 +161,26 @@ public sealed class NostrEventValidator : INostrEventValidator
                 error = "Tag is null.";
                 return false;
             }
-            
+
             if (string.IsNullOrWhiteSpace(tag.Name))
             {
                 error = "Tag name is empty or null.";
                 return false;
             }
-            
+
             if (!tag.IsValid())
             {
                 error = $"Invalid tag: {tag.Name}";
                 return false;
             }
-            
+
             if (tag.Values.Any(string.IsNullOrWhiteSpace))
             {
                 error = "Tag contains empty value.";
                 return false;
             }
         }
-        
+
         error = string.Empty;
         return true;
     }
@@ -204,14 +198,14 @@ public sealed class NostrEventValidator : INostrEventValidator
             WriteIndented = false,
             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
-        
-        var tagsArrays = evt.Tags.Select(tag => 
+
+        var tagsArrays = evt.Tags.Select(tag =>
         {
             var array = new List<string> { tag.Name };
             array.AddRange(tag.Values);
             return array.ToArray();
         }).ToArray();
-        
+
         var eventArray = new object[]
         {
             0,
@@ -221,13 +215,13 @@ public sealed class NostrEventValidator : INostrEventValidator
             tagsArrays,
             evt.Content
         };
-        
+
         var serialized = JsonSerializer.Serialize(eventArray, options);
         var utf8Bytes = Encoding.UTF8.GetBytes(serialized);
         var hash = NBitcoin.Crypto.Hashes.SHA256(utf8Bytes);
         return Convert.ToHexString(hash).ToLowerInvariant();
     }
-    
+
     [Obsolete("This method uses legacy hex parsing. Consider using OptimizedHexConverter for better performance.")]
     private static byte[] ParseHex(string hex)
     {

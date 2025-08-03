@@ -1,4 +1,3 @@
-using System;
 using NostrSure.Domain.Entities;
 
 namespace NostrSure.Domain.Validation;
@@ -34,12 +33,12 @@ public interface IHexConverter
     /// Attempts to parse a hexadecimal string into a byte array
     /// </summary>
     bool TryParseHex(ReadOnlySpan<char> hex, Span<byte> bytes, out int bytesWritten);
-    
+
     /// <summary>
     /// Parses a hexadecimal string into a byte array, throwing on invalid input
     /// </summary>
     byte[] ParseHex(ReadOnlySpan<char> hex);
-    
+
     /// <summary>
     /// Legacy string-based parsing for backward compatibility
     /// </summary>

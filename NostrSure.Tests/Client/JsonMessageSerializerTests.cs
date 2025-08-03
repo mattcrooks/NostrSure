@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NostrSure.Infrastructure.Client.Implementation;
 using NostrSure.Infrastructure.Client.Messages;
 
