@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NostrSure.Infrastructure.Client;
 using NostrSure.Infrastructure.Client.Abstractions;
 
@@ -12,6 +13,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging();
 
         // Act
         services.AddNostrClient();
@@ -31,6 +33,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging();
         var baseDelay = TimeSpan.FromMilliseconds(500);
         var maxDelay = TimeSpan.FromSeconds(30);
         const int maxRetries = 10;
@@ -53,6 +56,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging();
 
         // Act
         services.AddNostrClient(null, null, 3);
@@ -68,6 +72,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging();
         services.AddNostrClient();
         var serviceProvider = services.BuildServiceProvider();
 
@@ -86,6 +91,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging();
         services.AddNostrClient();
         var serviceProvider = services.BuildServiceProvider();
 
