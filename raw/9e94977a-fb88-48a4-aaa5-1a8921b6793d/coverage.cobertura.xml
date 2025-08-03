@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.6351" branch-rate="0.5458" version="1.9" timestamp="1754193394" lines-covered="740" lines-valid="1165" branches-covered="274" branches-valid="502">
+<coverage line-rate="0.6351" branch-rate="0.5458" version="1.9" timestamp="1754208201" lines-covered="740" lines-valid="1165" branches-covered="274" branches-valid="502">
   <sources>
     <source>/home/runner/work/NostrSure/NostrSure/</source>
   </sources>
@@ -4311,28 +4311,28 @@
             </method>
             <method name="GetDelay" signature="(System.Int32)" line-rate="1" branch-rate="0.8332999999999999" complexity="6">
               <lines>
-                <line number="40" hits="12" branch="False" />
-                <line number="41" hits="15" branch="True" condition-coverage="100% (2/2)">
+                <line number="40" hits="69" branch="False" />
+                <line number="41" hits="72" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="12" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="44" hits="9" branch="False" />
-                <line number="45" hits="9" branch="False" />
-                <line number="48" hits="9" branch="True" condition-coverage="100% (2/2)">
+                <line number="44" hits="66" branch="False" />
+                <line number="45" hits="66" branch="False" />
+                <line number="48" hits="66" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="72" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="51" hits="9" branch="False" />
-                <line number="52" hits="9" branch="False" />
-                <line number="53" hits="9" branch="False" />
-                <line number="56" hits="9" branch="True" condition-coverage="50% (1/2)">
+                <line number="51" hits="66" branch="False" />
+                <line number="52" hits="66" branch="False" />
+                <line number="53" hits="66" branch="False" />
+                <line number="56" hits="66" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
                     <condition number="148" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="57" hits="12" branch="False" />
+                <line number="57" hits="69" branch="False" />
               </lines>
             </method>
             <method name=".ctor" signature="(System.Nullable`1&lt;System.TimeSpan&gt;,System.Nullable`1&lt;System.TimeSpan&gt;,System.Int32)" line-rate="1" branch-rate="1" complexity="4">
@@ -4362,28 +4362,28 @@
             <line number="35" hits="13" branch="False" />
             <line number="36" hits="13" branch="False" />
             <line number="37" hits="13" branch="False" />
-            <line number="40" hits="12" branch="False" />
-            <line number="41" hits="15" branch="True" condition-coverage="100% (2/2)">
+            <line number="40" hits="69" branch="False" />
+            <line number="41" hits="72" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="12" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="44" hits="9" branch="False" />
-            <line number="45" hits="9" branch="False" />
-            <line number="48" hits="9" branch="True" condition-coverage="100% (2/2)">
+            <line number="44" hits="66" branch="False" />
+            <line number="45" hits="66" branch="False" />
+            <line number="48" hits="66" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="72" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="51" hits="9" branch="False" />
-            <line number="52" hits="9" branch="False" />
-            <line number="53" hits="9" branch="False" />
-            <line number="56" hits="9" branch="True" condition-coverage="50% (1/2)">
+            <line number="51" hits="66" branch="False" />
+            <line number="52" hits="66" branch="False" />
+            <line number="53" hits="66" branch="False" />
+            <line number="56" hits="66" branch="True" condition-coverage="50% (1/2)">
               <conditions>
                 <condition number="148" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="57" hits="12" branch="False" />
+            <line number="57" hits="69" branch="False" />
             <line number="15" hits="36" branch="False" />
             <line number="16" hits="36" branch="False" />
             <line number="17" hits="36" branch="False" />
