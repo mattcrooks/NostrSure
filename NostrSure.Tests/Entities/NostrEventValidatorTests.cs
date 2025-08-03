@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace NostrSure.Tests.Entities
 {
-    [TestCategory("Entities")]
+    [TestCategory("Validation  - NostrEvent")]
     [TestClass]
     public class NostrEventValidatorTests
     {
@@ -267,6 +267,97 @@ namespace NostrSure.Tests.Entities
 
             var validTTag = new NostrTag("t", new[] { "nostr" });
             Assert.IsTrue(validTTag.IsValid(), "Valid t tag should pass validation");
+        }
+
+        [TestMethod]
+        public void ValidateSignature_NullPubkey_Fails()
+        {
+            var evt = new NostrEvent("id", null!, DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag>(), "content", "sig");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateSignature(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Pubkey is empty"));
+        }
+
+        [TestMethod]
+        public void ValidateSignature_EmptyId_Fails()
+        {
+            var evt = new NostrEvent("", new Pubkey("pubkey"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag>(), "content", "sig");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateSignature(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Event ID is empty"));
+        }
+
+        [TestMethod]
+        public void ValidateSignature_InvalidHexId_Fails()
+        {
+            var evt = new NostrEvent("nothex", new Pubkey("pubkey"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag>(), "content", "sig");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateSignature(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Invalid event ID length"));
+        }
+
+        [TestMethod]
+        public void ValidateSignature_InvalidHexPubkey_Fails()
+        {
+            var evt = new NostrEvent("db7e784617a8caa09433cb0ec2250deb3ab20b59adaae1f8fe0f574243df015a", new Pubkey("nothex"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag>(), "content", "sig");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateSignature(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Invalid pubkey length"));
+        }
+
+        [TestMethod]
+        public void ValidateSignature_InvalidHexSig_Fails()
+        {
+            var evt = new NostrEvent("db7e784617a8caa09433cb0ec2250deb3ab20b59adaae1f8fe0f574243df015a", new Pubkey("aa4fc8665f5696e33db7e1a572e3b0f5b3d615837b0f362dcb1c8068b098c7b4"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag>(), "content", "nothex");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateSignature(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Invalid signature length"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ValidateTags_TagWithEmptyName_Fails()
+        {
+            var evt = new NostrEvent("id", new Pubkey("pubkey"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag> { new NostrTag("", new[] { "value" }) }, "content", "sig");
+            var validator = new NostrEventValidator();
+            // The constructor will throw before this line
+            validator.ValidateTags(evt, out var error);
+        }
+
+        [TestMethod]
+        public void ValidateTags_TagWithEmptyValue_Fails()
+        {
+            var evt = new NostrEvent("id", new Pubkey("pubkey"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag> { new NostrTag("t", new[] { "" }) }, "content", "sig");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateTags(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Tag contains empty value"));
+        }
+
+        [TestMethod]
+        public void ValidateTags_TagIsNull_Fails()
+        {
+            var evt = new NostrEvent("id", new Pubkey("pubkey"), DateTimeOffset.UtcNow, EventKind.Note, new List<NostrTag> { null! }, "content", "sig");
+            var validator = new NostrEventValidator();
+            var result = validator.ValidateTags(evt, out var error);
+            Assert.IsFalse(result);
+            Assert.IsTrue(error.Contains("Tag is null"));
+        }
+
+
+
+        [TestMethod]
+        public async Task ValidateAsync_WrapsSyncMethod()
+        {
+            var evt = CreateValidEvent();
+            var validator = new NostrEventValidator();
+            var result = await validator.ValidateAsync(evt);
+            Assert.AreEqual(result.IsValid, validator.Validate(evt).IsValid);
         }
     }
 }
