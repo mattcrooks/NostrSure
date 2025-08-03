@@ -1,4 +1,6 @@
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.ObjectPool;
 using NostrSure.Infrastructure.Client.Abstractions;
 using NostrSure.Infrastructure.Client.Implementation;
 
@@ -10,12 +12,22 @@ namespace NostrSure.Infrastructure.Client;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Adds all Nostr client services to the DI container
+    /// Adds all Nostr client services to the DI container using refactored WebSocket implementation
     /// </summary>
     public static IServiceCollection AddNostrClient(this IServiceCollection services)
     {
+        // Object pooling for performance
+        services.AddSingleton<ObjectPool<StringBuilder>>(provider =>
+        {
+            var objectPoolProvider = new DefaultObjectPoolProvider();
+            var policy = new StringBuilderPooledObjectPolicy();
+            return objectPoolProvider.Create(policy);
+        });
+
+        // Refactored WebSocket components
+        services.AddSingleton<IWebSocketFactory, RefactoredWebSocketFactory>();
+        
         // Core services
-        services.AddSingleton<IWebSocketFactory, WebSocketFactory>();
         services.AddSingleton<IMessageSerializer, JsonMessageSerializer>();
         services.AddSingleton<ISubscriptionManager, InMemorySubscriptionManager>();
         services.AddSingleton<IEventDispatcher, DefaultEventDispatcher>();
@@ -35,8 +47,18 @@ public static class ServiceCollectionExtensions
                                                    TimeSpan? maxDelay = null,
                                                    int maxRetries = 5)
     {
+        // Object pooling for performance
+        services.AddSingleton<ObjectPool<StringBuilder>>(provider =>
+        {
+            var objectPoolProvider = new DefaultObjectPoolProvider();
+            var policy = new StringBuilderPooledObjectPolicy();
+            return objectPoolProvider.Create(policy);
+        });
+
+        // Refactored WebSocket components
+        services.AddSingleton<IWebSocketFactory, RefactoredWebSocketFactory>();
+        
         // Core services
-        services.AddSingleton<IWebSocketFactory, WebSocketFactory>();
         services.AddSingleton<IMessageSerializer, JsonMessageSerializer>();
         services.AddSingleton<ISubscriptionManager, InMemorySubscriptionManager>();
         services.AddSingleton<IEventDispatcher, DefaultEventDispatcher>();
