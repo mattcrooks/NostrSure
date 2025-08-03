@@ -48,20 +48,25 @@ public class RetryBackoffPolicyTests
     [TestMethod]
     public void GetDelay_ImplementsExponentialBackoff()
     {
-        // Act
-        var delay1 = _policy.GetDelay(1);
-        var delay2 = _policy.GetDelay(2);
-        var delay3 = _policy.GetDelay(3);
+        // Act - Sample multiple times to account for jitter randomness
+        var delay1Samples = Enumerable.Range(0, 20).Select(_ => _policy.GetDelay(1)).ToList();
+        var delay2Samples = Enumerable.Range(0, 20).Select(_ => _policy.GetDelay(2)).ToList();
+        var delay3Samples = Enumerable.Range(0, 20).Select(_ => _policy.GetDelay(3)).ToList();
 
         // Assert
-        // Each delay should be roughly double the previous (within jitter tolerance)
-        Assert.IsTrue(delay1 > TimeSpan.Zero);
-        Assert.IsTrue(delay2 > delay1);
-        Assert.IsTrue(delay3 > delay2);
+        // All delays should be positive
+        Assert.IsTrue(delay1Samples.All(d => d > TimeSpan.Zero));
+        Assert.IsTrue(delay2Samples.All(d => d > TimeSpan.Zero));
+        Assert.IsTrue(delay3Samples.All(d => d > TimeSpan.Zero));
         
-        // Verify exponential growth (allowing for jitter)
-        Assert.IsTrue(delay2 >= delay1 * 1.5); // At least 1.5x due to jitter
-        Assert.IsTrue(delay3 >= delay2 * 1.5);
+        // Average delays should follow exponential pattern (jitter cancels out over samples)
+        var avgDelay1 = delay1Samples.Select(d => d.TotalMilliseconds).Average();
+        var avgDelay2 = delay2Samples.Select(d => d.TotalMilliseconds).Average();
+        var avgDelay3 = delay3Samples.Select(d => d.TotalMilliseconds).Average();
+        
+        // Verify exponential growth in averages (should be approximately 2x)
+        Assert.IsTrue(avgDelay2 >= avgDelay1 * 1.7, $"Expected avgDelay2 ({avgDelay2}) >= avgDelay1 * 1.7 ({avgDelay1 * 1.7})");
+        Assert.IsTrue(avgDelay3 >= avgDelay2 * 1.7, $"Expected avgDelay3 ({avgDelay3}) >= avgDelay2 * 1.7 ({avgDelay2 * 1.7})");
     }
 
     [TestMethod]
