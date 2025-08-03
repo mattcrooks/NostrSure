@@ -7,23 +7,23 @@ namespace NostrSure.Infrastructure.Client.Implementation;
 /// <summary>
 /// Refactored WebSocket connection implementation using the façade pattern with SOLID principles
 /// </summary>
-public sealed class RefactoredWebSocketConnection : IWebSocketConnection
+public sealed class WebSocketConnection : IWebSocketConnection
 {
     private readonly IConnectionManager _connectionManager;
     private readonly IMessageReceiver _messageReceiver;
     private readonly IMessageSender _messageSender;
     private readonly IConnectionErrorHandler _errorHandler;
     private readonly IConnectionStateManager _stateManager;
-    private readonly ILogger<RefactoredWebSocketConnection>? _logger;
+    private readonly ILogger<WebSocketConnection>? _logger;
     private bool _disposed;
 
-    public RefactoredWebSocketConnection(
+    public WebSocketConnection(
         IConnectionManager connectionManager,
         IMessageReceiver messageReceiver,
         IMessageSender messageSender,
         IConnectionErrorHandler errorHandler,
         IConnectionStateManager stateManager,
-        ILogger<RefactoredWebSocketConnection>? logger = null)
+        ILogger<WebSocketConnection>? logger = null)
     {
         _connectionManager = connectionManager ?? throw new ArgumentNullException(nameof(connectionManager));
         _messageReceiver = messageReceiver ?? throw new ArgumentNullException(nameof(messageReceiver));

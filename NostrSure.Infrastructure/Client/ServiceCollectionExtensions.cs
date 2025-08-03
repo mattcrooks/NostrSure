@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         });
 
         // Refactored WebSocket components
-        services.AddSingleton<IWebSocketFactory, RefactoredWebSocketFactory>();
+        services.AddSingleton<IWebSocketFactory, WebSocketFactory>();
 
         // Core services
         services.AddSingleton<IMessageSerializer, JsonMessageSerializer>();
@@ -56,7 +56,7 @@ public static class ServiceCollectionExtensions
         });
 
         // Refactored WebSocket components
-        services.AddSingleton<IWebSocketFactory, RefactoredWebSocketFactory>();
+        services.AddSingleton<IWebSocketFactory, WebSocketFactory>();
 
         // Core services
         services.AddSingleton<IMessageSerializer, JsonMessageSerializer>();

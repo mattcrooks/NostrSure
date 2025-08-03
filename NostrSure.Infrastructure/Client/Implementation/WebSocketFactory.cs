@@ -9,12 +9,12 @@ namespace NostrSure.Infrastructure.Client.Implementation;
 /// <summary>
 /// Factory for creating refactored WebSocket connections with proper dependency injection
 /// </summary>
-public class RefactoredWebSocketFactory : IWebSocketFactory
+public class WebSocketFactory : IWebSocketFactory
 {
     private readonly ILoggerFactory? _loggerFactory;
     private readonly ObjectPool<StringBuilder> _stringBuilderPool;
 
-    public RefactoredWebSocketFactory(
+    public WebSocketFactory(
         ILoggerFactory? loggerFactory,
         ObjectPool<StringBuilder> stringBuilderPool)
     {
@@ -35,12 +35,12 @@ public class RefactoredWebSocketFactory : IWebSocketFactory
         var messageSender = new MessageSender(webSocket, errorHandler, stateManager, _loggerFactory?.CreateLogger<MessageSender>());
 
         // Create façade
-        return new RefactoredWebSocketConnection(
+        return new WebSocketConnection(
             connectionManager,
             messageReceiver,
             messageSender,
             errorHandler,
             stateManager,
-            _loggerFactory?.CreateLogger<RefactoredWebSocketConnection>());
+            _loggerFactory?.CreateLogger<WebSocketConnection>());
     }
 }

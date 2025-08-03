@@ -10,9 +10,9 @@ namespace NostrSure.Tests.Client.Connection;
 [TestCategory("Client")]
 [TestCategory("Connection")]
 [TestClass]
-public class RefactoredWebSocketConnectionTests
+public class WebSocketConnectionTests
 {
-    private RefactoredWebSocketFactory _factory = null!;
+    private WebSocketFactory _factory = null!;
     private ILoggerFactory _loggerFactory = null!;
     private ObjectPool<StringBuilder> _stringBuilderPool = null!;
 
@@ -25,7 +25,7 @@ public class RefactoredWebSocketConnectionTests
         var policy = new StringBuilderPooledObjectPolicy();
         _stringBuilderPool = objectPoolProvider.Create(policy);
         
-        _factory = new RefactoredWebSocketFactory(_loggerFactory, _stringBuilderPool);
+        _factory = new WebSocketFactory(_loggerFactory, _stringBuilderPool);
     }
 
     [TestMethod]
@@ -36,7 +36,7 @@ public class RefactoredWebSocketConnectionTests
 
         // Assert
         Assert.IsNotNull(connection);
-        Assert.IsInstanceOfType<RefactoredWebSocketConnection>(connection);
+        Assert.IsInstanceOfType<WebSocketConnection>(connection);
         Assert.AreEqual(WebSocketState.None, connection.State);
     }
 
