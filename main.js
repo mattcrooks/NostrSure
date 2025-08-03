@@ -215,22 +215,22 @@ var assemblies = [
     "classes": [
       { "name": "NostrSure.Domain.Entities.Follow", "rp": "NostrSure.Domain_Follow.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 12, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.NostrEvent", "rp": "NostrSure.Domain_NostrEvent.html", "cl": 9, "ucl": 12, "cal": 21, "tl": 29, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Entities.NostrEventValidator", "rp": "NostrSure.Domain_NostrEventValidator.html", "cl": 61, "ucl": 93, "cal": 154, "tl": 252, "cb": 25, "tb": 50, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Entities.NostrTag", "rp": "NostrSure.Domain_NostrTag.html", "cl": 17, "ucl": 2, "cal": 19, "tl": 33, "cb": 12, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.NostrEventValidator", "rp": "NostrSure.Domain_NostrEventValidator.html", "cl": 92, "ucl": 62, "cal": 154, "tl": 252, "cb": 39, "tb": 50, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.NostrTag", "rp": "NostrSure.Domain_NostrTag.html", "cl": 18, "ucl": 1, "cal": 19, "tl": 33, "cb": 13, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.Pubkey", "rp": "NostrSure.Domain_Pubkey.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 11, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.Relay", "rp": "NostrSure.Domain_Relay.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 12, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Extensions.ServiceCollectionExtensions", "rp": "NostrSure.Domain_ServiceCollectionExtensions.html", "cl": 12, "ucl": 23, "cal": 35, "tl": 77, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.CachedEventIdCalculator", "rp": "NostrSure.Domain_CachedEventIdCalculator.html", "cl": 45, "ucl": 17, "cal": 62, "tl": 99, "cb": 3, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Services.EventIdValidator", "rp": "NostrSure.Domain_EventIdValidator.html", "cl": 14, "ucl": 10, "cal": 24, "tl": 47, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Services.EventIdValidator", "rp": "NostrSure.Domain_EventIdValidator.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 47, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.EventKindValidator", "rp": "NostrSure.Domain_EventKindValidator.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 23, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.EventSignatureValidator", "rp": "NostrSure.Domain_EventSignatureValidator.html", "cl": 26, "ucl": 8, "cal": 34, "tl": 66, "cb": 13, "tb": 22, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.EventTagValidator", "rp": "NostrSure.Domain_EventTagValidator.html", "cl": 13, "ucl": 12, "cal": 25, "tl": 49, "cb": 6, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.ModularNostrEventValidator", "rp": "NostrSure.Domain_ModularNostrEventValidator.html", "cl": 57, "ucl": 6, "cal": 63, "tl": 111, "cb": 23, "tb": 42, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.OptimizedCryptographicService", "rp": "NostrSure.Domain_OptimizedCryptographicService.html", "cl": 6, "ucl": 3, "cal": 9, "tl": 27, "cb": 5, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Services.OptimizedHexConverter", "rp": "NostrSure.Domain_OptimizedHexConverter.html", "cl": 45, "ucl": 6, "cal": 51, "tl": 88, "cb": 28, "tb": 40, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Services.OptimizedHexConverter", "rp": "NostrSure.Domain_OptimizedHexConverter.html", "cl": 46, "ucl": 5, "cal": 51, "tl": 88, "cb": 30, "tb": 40, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.SimpleEventIdCalculator", "rp": "NostrSure.Domain_SimpleEventIdCalculator.html", "cl": 29, "ucl": 1, "cal": 30, "tl": 54, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Validation.ValidationError", "rp": "NostrSure.Domain_ValidationError.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Validation.ValidationResult", "rp": "NostrSure.Domain_ValidationResult.html", "cl": 5, "ucl": 2, "cal": 7, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Validation.ValidationResult", "rp": "NostrSure.Domain_ValidationResult.html", "cl": 6, "ucl": 1, "cal": 7, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "NostrSure.Infrastructure",
@@ -278,12 +278,6 @@ var riskHotspots = [
       { "value": 16, "exceeded": true },
     ]},
   {
-    "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEventValidator", "reportPath": "NostrSure.Domain_NostrEventValidator.html", "methodName": "ValidateSignature(NostrSure.Domain.Entities.NostrEvent,System.String&)", "methodShortName": "ValidateSignature(...)", "fileIndex": 0, "line": 60,
-    "metrics": [
-      { "value": 97, "exceeded": true },
-      { "value": 22, "exceeded": true },
-    ]},
-  {
     "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageSender", "reportPath": "NostrSure.Infrastructure_MessageSender.html", "methodName": "SendAsync()", "methodShortName": "SendAsync()", "fileIndex": 0, "line": 31,
     "metrics": [
       { "value": 73, "exceeded": true },
@@ -291,12 +285,6 @@ var riskHotspots = [
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEvent", "reportPath": "NostrSure.Domain_NostrEvent.html", "methodName": "Validate(NostrSure.Domain.Interfaces.INostrEventValidator,System.Collections.Generic.List`1<System.String>&)", "methodShortName": "Validate(...)", "fileIndex": 0, "line": 17,
-    "metrics": [
-      { "value": 72, "exceeded": true },
-      { "value": 8, "exceeded": false },
-    ]},
-  {
-    "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEventValidator", "reportPath": "NostrSure.Domain_NostrEventValidator.html", "methodName": "Validate(NostrSure.Domain.Entities.NostrEvent)", "methodShortName": "Validate(...)", "fileIndex": 0, "line": 38,
     "metrics": [
       { "value": 72, "exceeded": true },
       { "value": 8, "exceeded": false },
@@ -344,9 +332,15 @@ var riskHotspots = [
       { "value": 25, "exceeded": true },
     ]},
   {
+    "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEventValidator", "reportPath": "NostrSure.Domain_NostrEventValidator.html", "methodName": "ValidateSignature(NostrSure.Domain.Entities.NostrEvent,System.String&)", "methodShortName": "ValidateSignature(...)", "fileIndex": 0, "line": 60,
+    "metrics": [
+      { "value": 24, "exceeded": false },
+      { "value": 22, "exceeded": true },
+    ]},
+  {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Services.OptimizedHexConverter", "reportPath": "NostrSure.Domain_OptimizedHexConverter.html", "methodName": "TryParseHex(System.ReadOnlySpan`1<System.Char>,System.Span`1<System.Byte>,System.Int32&)", "methodShortName": "TryParseHex(...)", "fileIndex": 0, "line": 31,
     "metrics": [
-      { "value": 25, "exceeded": false },
+      { "value": 23, "exceeded": false },
       { "value": 22, "exceeded": true },
     ]},
   {
