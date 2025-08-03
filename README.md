@@ -1,22 +1,24 @@
-# Nostr WOT Experiment
+# NostrSure: Web-of-Trust Crawler & Event Ingestor for Nostr
+## Experiments with .NET 8, Neo4j, PostgreSQL, and Nostr Protocol
 
-> **Experimenting with Nostr**  
-> A fun, hands‑on exploration of the Nostr protocol using C#/.NET after an 18‑month hiatus.
+
+> **A modern, high-performance .NET 8 project for exploring the Nostr protocol, building a Web-of-Trust, and ingesting high-signal events.**
+
+---
+
+## 🚀 Project Overview
+
+NostrSure is a modular, extensible .NET 8 solution for crawling the Nostr network, building a Web-of-Trust (WOT) graph, and ingesting only high-value events. It is designed for reliability, performance, and future extensibility, leveraging advanced .NET features, custom serialization, and a clean separation of concerns.
+
+**Key Features:**
+- **Web-of-Trust Crawler:** Recursively builds a trust graph from a seed pubkey using `kind:3` (contact list) events.
+- **Signal-Only Event Ingestor:** Streams and stores only high-value events (`kind:1` notes, `kind:9735` zaps) from trusted pubkeys.
+- **Graph & Event Persistence:** Persists the trust graph in Neo4j and events in PostgreSQL (with future vector search support).
+- **CLI Tool:** Interact with relays, stream and process messages directly from the command line.
+- **Comprehensive Test Suite:** Includes unit tests and performance benchmarks for core components.
 
 ---
 
-## 🚀 What Is This?
-
-This repo is my playground for learning and experimenting with **Nostr** (“Notes and Other Stuff Transmitted by Relays”). It’s a lightweight Web‑of‑Trust crawler and event ingestor:
-
-- **Seed** a single pubkey (for example, Jack Dorsey’s)  
-- **Recursively** build your trust graph (“follows” relationships via `kind:3` events)  
-- **Ingest** high‑signal events (`kind:1` notes and `kind:9735` zaps) only from trusted pubkeys  
-- **Persist** the graph in Neo4j and events in Postgres (also acting as the durable queue)  
-
-Think of it as a “signal‑only” Nostr mirror—no noise, no spam, just the voices you trust.
-
----
 
 ## 🎯 Why .NET?
 
@@ -30,102 +32,103 @@ So here we are—back in Visual Studio land and loving every minute of it.
 
 ---
 
-## 🏗️ Architecture Overview
+## 🏗️ Solution Structure
 
-```mermaid
-flowchart TB
-  subgraph Crawl
-    A[Postgres: crawl_queue]
-    B[CrawlWorkerService]
-    C[Neo4j: WOT graph]
-  end
-
-  subgraph Ingest
-    D[NostrRelayClient WebSockets]
-    E[IngestWorkerService]
-    F[Postgres: nostr_events]
-  end
-
-  A -->|Dequeue pubkey| B
-  B -->|Fetch kind:3| D
-  D -->|Return follows| B
-  B -->|Write FOLLOWS| C
-  B -->|Enqueue new pubkeys| A
-
-  C -->|Validate pubkey| E
-  E -->|Subscribe to kind:1 & zaps| D
-  D -->|Stream events| E
-  E -->|Write events| F
+```
+NostrSure.Domain/           # Core domain models, validation, and services
+NostrSure.Infrastructure/   # Nostr client, relay communication, serialization, DI
+NosrtSure.CLI/              # Command-line interface for relay interaction
+NostrSure.Tests/            # Unit tests and benchmarks
 ```
 
-- **Postgres**  
-  - `crawl_queue`: durable job queue for pubkeys  
-  - `nostr_events`: JSONB storage for ingested events  
-- **Neo4j**  
-  - Persists your Web‑of‑Trust as a graph of `User` nodes and `FOLLOWS` edges  
-- **.NET Worker Services**  
-  - `CrawlWorkerService` – pulls pubkeys → fetches contact lists → updates the graph  
-  - `IngestWorkerService` – subscribes to trusted pubkeys → streams & stores notes/zaps  
-- **NostrRelayClient** – a simple WebSocket wrapper to talk to any Nostr relay  
+- **Domain:** Event, tag, pubkey, and validation logic (SOLID, testable, extensible)
+- **Infrastructure:** NostrClient, relay protocol, DI extensions, optimized JSON converters
+- **CLI:** Connect to relays, subscribe, stream, and process messages interactively
+- **Tests:** MSTest-based suite for validation, serialization, and performance
 
 ---
 
-## 🔧 Prerequisites
+## ⚙️ Design Principles
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)  
-- [PostgreSQL 14+](https://www.postgresql.org/) with the `vector` extension installed (for future embeddings)  
-- [Neo4j 5+](https://neo4j.com/) (Community or Enterprise)  
-- A running Nostr relay (e.g. `wss://relay.camus.network`)  
+- **SOLID & Clean Architecture:** Each layer is decoupled and testable. DI is used throughout.
+- **Performance:** Custom JSON converters, zero-allocation parsing, and caching for event IDs.
+- **Extensibility:** Add new event types, validators, or relay strategies with minimal friction.
+- **Reliability:** Robust error handling, retry/backoff policies, and validation pipelines.
 
 ---
 
 ## 🛠️ Getting Started
 
-1. **Clone this repo**  
+### Prerequisites
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- [PostgreSQL 14+](https://www.postgresql.org/) (with `vector` extension for future features)
+- [Neo4j 5+](https://neo4j.com/)
+- Access to a Nostr relay (e.g. `wss://relay.damus.io`)
+
+### Setup & Usage
+
+1. **Clone the Repository**
    ```bash
    git clone https://github.com/mattcrooks/nostrsure.git
-   cd nostr-wot-experiment
+   cd nostrsure
    ```
-2. **Configure**  
-   - Copy `appsettings.json.example` → `appsettings.json`  
-   - Fill in your Postgres and Neo4j connection strings, plus seed pubkey(s) and relay URLs  
-3. **Run the crawler**  
+
+2. **Configure**
+   - Copy `appsettings.json.example` to `appsettings.json`.
+   - Fill in your PostgreSQL and Neo4j connection strings, seed pubkey(s), and relay URLs.
+
+3. **Run the CLI Tool**
    ```bash
-   cd src/NostrCrawler.Infrastructure
-   dotnet run --project NostrCrawler.Infrastructure.csproj
+   dotnet run --project NosrtSure.CLI -- [relay-url]
    ```
-4. **Watch the logs**  
-   You’ll see pubkeys dequeued, contact lists fetched, and graph edges created in Neo4j.  
-5. **Run the ingestor**  
-   In a separate terminal:
+   - Connects to the specified relay and streams messages for 30 seconds.
+   - Example: `dotnet run --project NosrtSure.CLI -- wss://relay.damus.io`
+
+4. **Run the Crawler/Worker Services**
    ```bash
-   dotnet run --project src/TBA
+   dotnet run --project NostrSure.Infrastructure
    ```
-6. **Query the API**  
+   - Crawls the Nostr network, builds the WOT graph, and ingests events.
+
+5. **Run the Test Suite**
    ```bash
-   cd src/NostrCrawler.Api
-   dotnet run
+   dotnet test NostrSure.Tests
    ```
-   - `GET /api/wot/{pubkey}` → your Web‑of‑Trust  
-   - `GET /api/feed/{pubkey}` → recent notes from trusted nodes  
+   - Validates event logic, serialization, and performance.
 
 ---
 
-## 🎉 Next Steps
+## 🧩 Extensibility & Customization
 
-- Hook up **pgvector** and Semantic Kernel for vector search over your notes: or not, I wouldn't mind experimenting with Neo4j's vector capabilities instead  
-- Implement **trust‑scoring** and filter by zaps or reciprocity  
-- Build a simple **React** or **MAUI** front end to visualize your graph  
-- Explore **relay reputation** metrics and auto‑pruning  
+- **Add New Event Types:** Extend domain models and update converters.
+- **Integrate Vector Search:** Enable pgvector in Postgres or use Neo4j’s vector capabilities.
+- **Front-End Visualization:** Build a React or MAUI client to visualize the WOT graph.
+- **Custom Validation Pipelines:** Compose validators for new NIP standards or business rules.
+
+---
+
+## 🧪 Testing & Benchmarking
+
+- **Unit Tests:** Located in `NostrSure.Tests` for all core logic.
+- **Benchmarks:** Use BenchmarkDotNet for serialization and event processing performance.
+
+---
+
+## 📦 Core Components
+
+- **NostrClient:** Main relay client, handles subscriptions, event streaming, and error handling.
+- **Validation Pipeline:** Modular, async/sync validation for events, tags, IDs, and signatures.
+- **RetryBackoffPolicy:** Robust retry logic for transient relay/network errors.
+- **Custom Serialization:** High-performance JSON converters for Nostr events and messages.
 
 ---
 
 ## 🙌 Contributing & Feedback
 
-This is a personal experiment—feel free to ⭐ the repo, file issues, or send PRs if you spot something cool (or broken). Let’s demystify Nostr together!
+This is a personal experiment—PRs, issues, and feedback are welcome! Let’s demystify Nostr and high-performance .NET together.
 
 ---
 
 ## 📄 License
 
-MIT © Matt Crooks  
+MIT © Matt Crooks
