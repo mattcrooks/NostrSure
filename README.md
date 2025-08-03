@@ -1,4 +1,8 @@
 # NostrSure: Web-of-Trust Crawler & Event Ingestor for Nostr
+
+![CI](https://github.com/mattcrooks/NostrSure/actions/workflows/ci.yml/badge.svg)
+![Coverage](https://mattcrooks.github.io/NostrSure/coverage-badge.svg)
+
 ## Experiments with .NET 8, Neo4j, PostgreSQL, and Nostr Protocol
 
 
@@ -111,6 +115,7 @@ NostrSure.Tests/            # Unit tests and benchmarks
 
 - **Unit Tests:** Located in `NostrSure.Tests` for all core logic.
 - **Benchmarks:** Use BenchmarkDotNet for serialization and event processing performance.
+- **Code Coverage:** [View full code coverage report](https://mattcrooks.github.io/NostrSure/)
 
 ---
 
