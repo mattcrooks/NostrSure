@@ -235,17 +235,17 @@ var assemblies = [
   {
     "name": "NostrSure.Infrastructure",
     "classes": [
-      { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionErrorHandler", "rp": "NostrSure.Infrastructure_ConnectionErrorHandler.html", "cl": 4, "ucl": 40, "cal": 44, "tl": 69, "cb": 0, "tb": 29, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionManager", "rp": "NostrSure.Infrastructure_ConnectionManager.html", "cl": 12, "ucl": 47, "cal": 59, "tl": 97, "cb": 3, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionErrorHandler", "rp": "NostrSure.Infrastructure_ConnectionErrorHandler.html", "cl": 42, "ucl": 2, "cal": 44, "tl": 69, "cb": 25, "tb": 29, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionManager", "rp": "NostrSure.Infrastructure_ConnectionManager.html", "cl": 49, "ucl": 10, "cal": 59, "tl": 97, "cb": 13, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionStateManager", "rp": "NostrSure.Infrastructure_ConnectionStateManager.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 55, "cb": 5, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.DefaultEventDispatcher", "rp": "NostrSure.Infrastructure_DefaultEventDispatcher.html", "cl": 18, "ucl": 2, "cal": 20, "tl": 52, "cb": 14, "tb": 20, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.InMemorySubscriptionManager", "rp": "NostrSure.Infrastructure_InMemorySubscriptionManager.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 48, "cb": 6, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.JsonMessageSerializer", "rp": "NostrSure.Infrastructure_JsonMessageSerializer.html", "cl": 51, "ucl": 2, "cal": 53, "tl": 89, "cb": 34, "tb": 38, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "rp": "NostrSure.Infrastructure_MessageReceiver.html", "cl": 14, "ucl": 94, "cal": 108, "tl": 165, "cb": 4, "tb": 56, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Implementation.MessageSender", "rp": "NostrSure.Infrastructure_MessageSender.html", "cl": 11, "ucl": 24, "cal": 35, "tl": 63, "cb": 3, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "rp": "NostrSure.Infrastructure_MessageReceiver.html", "cl": 52, "ucl": 56, "cal": 108, "tl": 165, "cb": 19, "tb": 56, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Implementation.MessageSender", "rp": "NostrSure.Infrastructure_MessageSender.html", "cl": 17, "ucl": 18, "cal": 35, "tl": 63, "cb": 5, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.NostrClient", "rp": "NostrSure.Infrastructure_NostrClient.html", "cl": 123, "ucl": 65, "cal": 188, "tl": 289, "cb": 43, "tb": 104, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.RetryBackoffPolicy", "rp": "NostrSure.Infrastructure_RetryBackoffPolicy.html", "cl": 28, "ucl": 0, "cal": 28, "tl": 58, "cb": 11, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Implementation.WebSocketConnection", "rp": "NostrSure.Infrastructure_WebSocketConnection.html", "cl": 16, "ucl": 33, "cal": 49, "tl": 101, "cb": 5, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Implementation.WebSocketConnection", "rp": "NostrSure.Infrastructure_WebSocketConnection.html", "cl": 46, "ucl": 3, "cal": 49, "tl": 101, "cb": 14, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.WebSocketFactory", "rp": "NostrSure.Infrastructure_WebSocketFactory.html", "cl": 22, "ucl": 0, "cal": 22, "tl": 46, "cb": 7, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.ClosedMessage", "rp": "NostrSure.Infrastructure_ClosedMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.CloseMessage", "rp": "NostrSure.Infrastructure_CloseMessage.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -272,40 +272,22 @@ var riskHotspotMetrics = [
 
 var riskHotspots = [
   {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.ConnectionErrorHandler", "reportPath": "NostrSure.Infrastructure_ConnectionErrorHandler.html", "methodName": "ShouldReconnect(System.Exception)", "methodShortName": "ShouldReconnect(...)", "fileIndex": 0, "line": 34,
-    "metrics": [
-      { "value": 650, "exceeded": true },
-      { "value": 25, "exceeded": true },
-    ]},
-  {
     "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "ReceiveAsync()", "methodShortName": "ReceiveAsync()", "fileIndex": 0, "line": 44,
     "metrics": [
-      { "value": 272, "exceeded": true },
+      { "value": 212, "exceeded": true },
       { "value": 16, "exceeded": true },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "ReceiveLoopAsync()", "methodShortName": "ReceiveLoopAsync()", "fileIndex": 0, "line": 128,
-    "metrics": [
-      { "value": 210, "exceeded": true },
-      { "value": 14, "exceeded": false },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageSender", "reportPath": "NostrSure.Infrastructure_MessageSender.html", "methodName": "SendAsync()", "methodShortName": "SendAsync()", "fileIndex": 0, "line": 31,
-    "metrics": [
-      { "value": 156, "exceeded": true },
-      { "value": 12, "exceeded": false },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.ConnectionManager", "reportPath": "NostrSure.Infrastructure_ConnectionManager.html", "methodName": "CloseAsync()", "methodShortName": "CloseAsync()", "fileIndex": 0, "line": 62,
-    "metrics": [
-      { "value": 110, "exceeded": true },
-      { "value": 10, "exceeded": false },
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEventValidator", "reportPath": "NostrSure.Domain_NostrEventValidator.html", "methodName": "ValidateSignature(NostrSure.Domain.Entities.NostrEvent,System.String&)", "methodShortName": "ValidateSignature(...)", "fileIndex": 0, "line": 60,
     "metrics": [
       { "value": 97, "exceeded": true },
       { "value": 22, "exceeded": true },
+    ]},
+  {
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageSender", "reportPath": "NostrSure.Infrastructure_MessageSender.html", "methodName": "SendAsync()", "methodShortName": "SendAsync()", "fileIndex": 0, "line": 31,
+    "metrics": [
+      { "value": 73, "exceeded": true },
+      { "value": 12, "exceeded": false },
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEvent", "reportPath": "NostrSure.Domain_NostrEvent.html", "methodName": "Validate(NostrSure.Domain.Interfaces.INostrEventValidator,System.Collections.Generic.List`1<System.String>&)", "methodShortName": "Validate(...)", "fileIndex": 0, "line": 17,
@@ -320,34 +302,16 @@ var riskHotspots = [
       { "value": 8, "exceeded": false },
     ]},
   {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "StartReceivingAsync()", "methodShortName": "StartReceivingAsync()", "fileIndex": 0, "line": 93,
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "ReceiveLoopAsync()", "methodShortName": "ReceiveLoopAsync()", "fileIndex": 0, "line": 128,
     "metrics": [
-      { "value": 72, "exceeded": true },
-      { "value": 8, "exceeded": false },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.WebSocketConnection", "reportPath": "NostrSure.Infrastructure_WebSocketConnection.html", "methodName": "Dispose()", "methodShortName": "Dispose()", "fileIndex": 0, "line": 90,
-    "metrics": [
-      { "value": 72, "exceeded": true },
-      { "value": 8, "exceeded": false },
+      { "value": 49, "exceeded": true },
+      { "value": 14, "exceeded": false },
     ]},
   {
     "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "Read(System.Text.Json.Utf8JsonReader&,System.Type,System.Text.Json.JsonSerializerOptions)", "methodShortName": "Read(...)", "fileIndex": 0, "line": 29,
     "metrics": [
       { "value": 43, "exceeded": true },
       { "value": 40, "exceeded": true },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.ConnectionManager", "reportPath": "NostrSure.Infrastructure_ConnectionManager.html", "methodName": "ConnectAsync()", "methodShortName": "ConnectAsync()", "fileIndex": 0, "line": 37,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "StopReceivingAsync()", "methodShortName": "StopReceivingAsync()", "fileIndex": 0, "line": 106,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Services.EventSignatureValidator", "reportPath": "NostrSure.Domain_EventSignatureValidator.html", "methodName": "ValidateSignature(NostrSure.Domain.Entities.NostrEvent)", "methodShortName": "ValidateSignature(...)", "fileIndex": 0, "line": 27,
@@ -372,6 +336,12 @@ var riskHotspots = [
     "metrics": [
       { "value": 27, "exceeded": false },
       { "value": 26, "exceeded": true },
+    ]},
+  {
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.ConnectionErrorHandler", "reportPath": "NostrSure.Infrastructure_ConnectionErrorHandler.html", "methodName": "ShouldReconnect(System.Exception)", "methodShortName": "ShouldReconnect(...)", "fileIndex": 0, "line": 34,
+    "metrics": [
+      { "value": 25, "exceeded": false },
+      { "value": 25, "exceeded": true },
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Services.OptimizedHexConverter", "reportPath": "NostrSure.Domain_OptimizedHexConverter.html", "methodName": "TryParseHex(System.ReadOnlySpan`1<System.Char>,System.Span`1<System.Byte>,System.Int32&)", "methodShortName": "TryParseHex(...)", "fileIndex": 0, "line": 31,
