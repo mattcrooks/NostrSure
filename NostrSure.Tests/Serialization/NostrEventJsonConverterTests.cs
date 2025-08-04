@@ -102,13 +102,15 @@ namespace NostrSure.Tests.Serialization
             """;
 
             var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
-            var serialized = JsonSerializer.Serialize(evt, GetOptions());
+            Assert.IsNotNull(evt);
+            var serialized = JsonSerializer.Serialize(evt!, GetOptions());
 
             // Deserialize again to compare objects, not raw JSON
             var evt2 = JsonSerializer.Deserialize<NostrEvent>(serialized, GetOptions());
+            Assert.IsNotNull(evt2);
 
             // Compare properties individually for value equality
-            Assert.AreEqual(evt.Id, evt2.Id);
+            Assert.AreEqual(evt!.Id, evt2!.Id);
             Assert.AreEqual(evt.Pubkey.Value, evt2.Pubkey.Value);
             Assert.AreEqual(evt.CreatedAt, evt2.CreatedAt);
             Assert.AreEqual(evt.Kind, evt2.Kind);
@@ -273,6 +275,206 @@ namespace NostrSure.Tests.Serialization
 
             var validTTag = new NostrTag("t", new[] { "nostr" });
             Assert.IsTrue(validTTag.IsValid(), "Valid t tag should pass validation");
+        }
+
+        [TestMethod]
+        public void CanDeserialize_EventWithNullValues()
+        {
+            var json = """
+            {
+                "content": null,
+                "created_at": 1673311423,
+                "id": "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe",
+                "kind": 1,
+                "pubkey": "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2",
+                "sig": "f188ace3426d97dbe1641b35984dc839a5c88a728e7701c848144920616967eb64a30a7d657ca16d556bea718311b15260c886568531399ed14239868aedbcee",
+                "tags": null
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
+
+            Assert.IsNotNull(evt);
+            Assert.IsNull(evt.Content);
+            Assert.IsNotNull(evt.Tags);
+            Assert.AreEqual(0, evt.Tags.Count);
+        }
+
+        [TestMethod]
+        public void CanSerialize_EventWithNullValues()
+        {
+            var evt = new NostrEvent(
+                "9007b89f5626b945174a2a8c8d9d0aefc44389fcdd45da2d14ec21bd2f943efe",
+                new Pubkey("82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2"),
+                DateTimeOffset.UtcNow,
+                EventKind.Note,
+                null,
+                string.Empty, // Use empty string instead of null
+                string.Empty  // Use empty string instead of null
+            );
+
+            var options = GetOptions();
+            var json = JsonSerializer.Serialize(evt, options);
+
+            // Ensure the JSON is valid and can be deserialized back to an event
+            var deserializedEvt = JsonSerializer.Deserialize<NostrEvent>(json, options);
+            Assert.IsNotNull(deserializedEvt);
+            Assert.AreEqual(evt.Id, deserializedEvt!.Id);
+            Assert.AreEqual(evt.Pubkey.Value, deserializedEvt.Pubkey.Value);
+            Assert.AreEqual(evt.CreatedAt, deserializedEvt.CreatedAt);
+            Assert.AreEqual(evt.Kind, deserializedEvt.Kind);
+            Assert.IsTrue(Enum.IsDefined(typeof(EventKind), evt.Kind));
+            Assert.AreEqual(evt.Sig, deserializedEvt.Sig);
+            Assert.IsNotNull(deserializedEvt.Tags);
+            Assert.AreEqual(0, deserializedEvt.Tags.Count);
+        }
+
+        [TestMethod]
+        public void CanDeserialize_EventWithEmptyTags()
+        {
+            var json = """
+            {
+                "content": "test",
+                "created_at": 1673311423,
+                "id": "test_id",
+                "kind": 1,
+                "pubkey": "test_pubkey",
+                "sig": "test_sig",
+                "tags": []
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
+
+            Assert.IsNotNull(evt);
+            Assert.AreEqual(0, evt.Tags.Count);
+        }
+
+        [TestMethod]
+        public void CanSerialize_EventWithEmptyTags()
+        {
+            var evt = new NostrEvent(
+                "test_id",
+                new Pubkey("test_pubkey"),
+                DateTimeOffset.UtcNow,
+                EventKind.Note,
+                new List<NostrTag>(),
+                "test",
+                "test_sig"
+            );
+
+            var options = GetOptions();
+            var json = JsonSerializer.Serialize(evt, options);
+
+            // Ensure the JSON is valid and can be deserialized back to an event
+            var deserializedEvt = JsonSerializer.Deserialize<NostrEvent>(json, options);
+            Assert.IsNotNull(deserializedEvt);
+            Assert.AreEqual(evt.Id, deserializedEvt.Id);
+            Assert.AreEqual(evt.Pubkey.Value, deserializedEvt.Pubkey.Value);
+            Assert.AreEqual(evt.CreatedAt, deserializedEvt.CreatedAt);
+            Assert.AreEqual(evt.Kind, deserializedEvt.Kind);
+            Assert.IsTrue(Enum.IsDefined(typeof(EventKind), evt.Kind));
+            Assert.AreEqual(evt.Sig, deserializedEvt.Sig);
+            Assert.IsNotNull(deserializedEvt.Tags);
+            Assert.AreEqual(0, deserializedEvt.Tags.Count);
+        }
+
+        [TestMethod]
+        public void Deserialization_ThrowsJsonException_OnInvalidJson()
+        {
+            var invalidJsons = new string[]
+            {
+                """{"content": "test", "created_at": 1673311423, "id": "test_id", "kind": 1, "pubkey": "test_pubkey", "sig": "test_sig","tags": }""",
+                """{"content": "test", "created_at": 1673311423, "id": "test_id", "kind": 1, "pubkey": "test_pubkey", "sig": "test_sig","tags": ["p","invalid_hex"]}"""
+            };
+
+            foreach (var invalidJson in invalidJsons)
+            {
+                Assert.ThrowsException<JsonException>(() => JsonSerializer.Deserialize<NostrEvent>(invalidJson, GetOptions()));
+            }
+        }
+
+        [TestMethod]
+        public void Deserialization_UnknownProperty_IgnoresExtraFields()
+        {
+            var json = """
+            {
+                "content": "test",
+                "created_at": 1673311423,
+                "id": "test_id",
+                "kind": 1,
+                "pubkey": "test_pubkey",
+                "sig": "test_sig",
+                "tags": [],
+                "unknown_field": "ignore_me"
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
+
+            Assert.IsNotNull(evt);
+            Assert.AreEqual("test_id", evt.Id);
+            Assert.AreEqual("test_pubkey", evt.Pubkey.Value);
+            Assert.AreEqual(EventKind.Note, evt.Kind);
+            Assert.AreEqual(1673311423, evt.CreatedAt.ToUnixTimeSeconds());
+            Assert.AreEqual("test", evt.Content);
+            Assert.AreEqual("test_sig", evt.Sig);
+            Assert.IsNotNull(evt.Tags);
+            Assert.AreEqual(0, evt.Tags.Count);
+        }
+
+        [TestMethod]
+        public void CanDeserialize_ValidEventWithNip05Dns()
+        {
+            var json = """
+            {
+                "content": "test content",
+                "created_at": 1673311423,
+                "id": "test_id",
+                "kind": 1,
+                "pubkey": "test_pubkey",
+                "sig": "test_sig",
+                "tags": [
+                    ["p", "pubkey_hex"],
+                    ["t", "hashtag"],
+                    ["e", "event_id"],
+                    ["relay", "wss://relay.example.com"]
+                ]
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, new JsonSerializerOptions { Converters = { new NostrEventJsonConverter() } });
+            Assert.IsNotNull(evt);
+            var validator = new NostrEventValidator();
+            var result = validator.Validate(evt!);
+            Assert.IsTrue(result.IsValid, "Event should be valid according to NostrEventValidator");
+        }
+
+        [TestMethod]
+        public void CanDeserialize_InvalidEventWithNip05Dns()
+        {
+            var json = """
+            {
+                "content": "test content",
+                "created_at": 1673311423,
+                "id": "test_id",
+                "kind": 1,
+                "pubkey": "test_pubkey",
+                "sig": "test_sig",
+                "tags": [
+                    ["p", "invalid_pubkey"],
+                    ["t", "hashtag"],
+                    ["e", "event_id"],
+                    ["relay", "wss://relay.example.com"]
+                ]
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, new JsonSerializerOptions { Converters = { new NostrEventJsonConverter() } });
+            Assert.IsNotNull(evt);
+            var validator = new NostrEventValidator();
+            var result = validator.Validate(evt!);
+            Assert.IsFalse(result.IsValid, "Event should be invalid due to incorrect pubkey in p tag");
         }
     }
 }

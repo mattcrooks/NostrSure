@@ -94,10 +94,10 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
             }
         }
 
-        // Validate all required fields are present
+        // Validate all required fields are present and handle nullable types properly
         if (fieldsFound != requiredFields ||
             id is null || pubkey is null || createdAt is null ||
-            kindInt is null || tags is null || content is null || sig is null)
+            kindInt is null || tags is null)
         {
             ThrowMissingRequiredFieldsException();
         }
@@ -107,13 +107,13 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
             ThrowUnknownEventKindException(kindInt.Value);
 
         return new NostrEvent(
-            id,
-            new Pubkey(pubkey),
+            id ?? string.Empty,
+            new Pubkey(pubkey ?? string.Empty),
             DateTimeOffset.FromUnixTimeSeconds(createdAt.Value),
             (EventKind)kindInt.Value,
-            tags,
-            content,
-            sig
+            tags ?? new List<NostrTag>(),
+            content ?? string.Empty,
+            sig ?? string.Empty
         );
     }
 

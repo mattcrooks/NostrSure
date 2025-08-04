@@ -24,22 +24,26 @@ internal class Program
 
         using var client = serviceProvider.GetRequiredService<INostrClient>();
 
-        // Event handlers
-        client.OnEvent += async (eventMsg) =>
+        // Event handlers (fix CS1998 warnings by removing async from synchronous handlers)
+        client.OnEvent += (eventMsg) =>
         {
             Console.WriteLine($"[EVENT] {eventMsg.SubscriptionId}: {eventMsg.Event.Content}");
+            return Task.CompletedTask;
         };
-        client.OnEndOfStoredEvents += async (eoseMsg) =>
+        client.OnEndOfStoredEvents += (eoseMsg) =>
         {
             Console.WriteLine($"[EOSE] {eoseMsg.SubscriptionId}");
+            return Task.CompletedTask;
         };
-        client.OnNotice += async (noticeMsg) =>
+        client.OnNotice += (noticeMsg) =>
         {
             Console.WriteLine($"[NOTICE] {noticeMsg.Message}");
+            return Task.CompletedTask;
         };
-        client.OnError += async (error) =>
+        client.OnError += (error) =>
         {
             Console.WriteLine($"[ERROR] {error.Message}");
+            return Task.CompletedTask;
         };
 
         try

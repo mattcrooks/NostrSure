@@ -11,8 +11,8 @@ namespace NostrSure.Tests.Validation
     [TestClass]
     public class ModularValidationTests
     {
-        private ServiceProvider _serviceProvider;
-        private INostrEventValidator _validator;
+        private ServiceProvider? _serviceProvider;
+        private INostrEventValidator? _validator;
 
         [TestInitialize]
         public void Setup()
@@ -38,7 +38,7 @@ namespace NostrSure.Tests.Validation
             var validEvent = CreateValidEvent();
 
             // Act
-            var result = await _validator.ValidateAsync(validEvent);
+            var result = await _validator!.ValidateAsync(validEvent);
 
             // Assert
             Assert.IsTrue(result.IsValid);
@@ -52,7 +52,7 @@ namespace NostrSure.Tests.Validation
             var invalidEvent = CreateValidEvent() with { Sig = "invalid_signature" };
 
             // Act
-            var result = await _validator.ValidateAsync(invalidEvent);
+            var result = await _validator!.ValidateAsync(invalidEvent);
 
             // Assert
             Assert.IsFalse(result.IsValid);
@@ -68,7 +68,7 @@ namespace NostrSure.Tests.Validation
             var invalidEvent = CreateValidEvent() with { Kind = (EventKind)9999 };
 
             // Act
-            var result = await _validator.ValidateAsync(invalidEvent);
+            var result = await _validator!.ValidateAsync(invalidEvent);
 
             // Assert
             Assert.IsFalse(result.IsValid);
@@ -84,7 +84,7 @@ namespace NostrSure.Tests.Validation
             var invalidEvent = CreateValidEvent() with { Tags = new List<NostrTag> { invalidPTag } };
 
             // Act
-            var result = await _validator.ValidateAsync(invalidEvent);
+            var result = await _validator!.ValidateAsync(invalidEvent);
 
             // Assert
             Assert.IsFalse(result.IsValid);
@@ -99,10 +99,10 @@ namespace NostrSure.Tests.Validation
             var validEvent = CreateValidEvent();
 
             // Act - test legacy methods still work
-            var signatureValid = _validator.ValidateSignature(validEvent, out var sigError);
-            var kindValid = _validator.ValidateKind(validEvent, out var kindError);
-            var tagsValid = _validator.ValidateTags(validEvent, out var tagError);
-            var eventIdValid = _validator.ValidateEventId(validEvent, out var idError);
+            var signatureValid = _validator!.ValidateSignature(validEvent, out var sigError);
+            var kindValid = _validator!.ValidateKind(validEvent, out var kindError);
+            var tagsValid = _validator!.ValidateTags(validEvent, out var tagError);
+            var eventIdValid = _validator!.ValidateEventId(validEvent, out var idError);
 
             // Assert
             Assert.IsTrue(signatureValid, $"Signature validation failed: {sigError}");
@@ -124,7 +124,7 @@ namespace NostrSure.Tests.Validation
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
             // Act - validate all events concurrently
-            var tasks = events.Select(e => _validator.ValidateAsync(e));
+            var tasks = events.Select(e => _validator!.ValidateAsync(e));
             var results = await Task.WhenAll(tasks);
 
             stopwatch.Stop();
@@ -138,10 +138,10 @@ namespace NostrSure.Tests.Validation
         public void IndividualValidators_CanBeUsedSeparately()
         {
             // Arrange
-            var signatureValidator = _serviceProvider.GetRequiredService<IEventSignatureValidator>();
-            var eventIdValidator = _serviceProvider.GetRequiredService<IEventIdValidator>();
-            var kindValidator = _serviceProvider.GetRequiredService<IEventKindValidator>();
-            var tagValidator = _serviceProvider.GetRequiredService<IEventTagValidator>();
+            var signatureValidator = _serviceProvider!.GetRequiredService<IEventSignatureValidator>();
+            var eventIdValidator = _serviceProvider!.GetRequiredService<IEventIdValidator>();
+            var kindValidator = _serviceProvider!.GetRequiredService<IEventKindValidator>();
+            var tagValidator = _serviceProvider!.GetRequiredService<IEventTagValidator>();
 
             var validEvent = CreateValidEvent();
 
@@ -162,7 +162,7 @@ namespace NostrSure.Tests.Validation
         public void CachedEventIdCalculator_ImprovesPerfomance()
         {
             // Arrange
-            var calculator = _serviceProvider.GetRequiredService<IEventIdCalculator>();
+            var calculator = _serviceProvider!.GetRequiredService<IEventIdCalculator>();
             var validEvent = CreateValidEvent();
 
             // Act - calculate twice to test caching
@@ -184,7 +184,7 @@ namespace NostrSure.Tests.Validation
         public void OptimizedHexConverter_HandlesDifferentFormats()
         {
             // Arrange
-            var hexConverter = _serviceProvider.GetRequiredService<IHexConverter>();
+            var hexConverter = _serviceProvider!.GetRequiredService<IHexConverter>();
 
             // Act & Assert
             var bytes1 = hexConverter.ParseHex("deadbeef");

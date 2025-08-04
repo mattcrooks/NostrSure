@@ -44,7 +44,9 @@ public class WebSocketConnectionTests_Coverage
     {
         public WebSocketState CurrentState => WebSocketState.Open;
         public bool IsConnected => true;
+#pragma warning disable CS0067
         public event EventHandler<WebSocketState>? StateChanged;
+#pragma warning restore CS0067
         public void UpdateState(WebSocketState newState) { }
     }
 

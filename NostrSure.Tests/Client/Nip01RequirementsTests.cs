@@ -267,9 +267,11 @@ public class Nip01RequirementsTests
         public bool ConnectAsyncCalled { get; private set; }
         public List<string> SentMessages { get; } = new();
 
+#pragma warning disable CS0067
         public event EventHandler<string>? MessageReceived;
         public event EventHandler<Exception>? ErrorOccurred;
         public event EventHandler? Disconnected;
+#pragma warning restore CS0067
 
         public Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
         {
