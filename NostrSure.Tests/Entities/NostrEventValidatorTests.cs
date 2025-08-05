@@ -96,14 +96,14 @@ namespace NostrSure.Tests.Entities
         [TestMethod]
         public void ValidateSignature_ValidSig_Passes()
         {
-            var evt = CreateValidEvent() with 
-            { 
+            var evt = CreateValidEvent() with
+            {
                 Id = "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2",
                 Pubkey = new Pubkey("82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2"),
                 Sig = "f188ace3426d97dbe1641b35984dc839a5c88a728e7701c848144920616967eb64a30a7d657ca16d556bea718311b15260c886568531399ed14239868aedbcee"
             };
             var validator = new NostrEventValidator();
-            
+
             // This test is for basic signature format validation, not cryptographic verification
             Assert.IsTrue(evt.Sig.Length == 128, "Signature should be 128 characters (64 bytes in hex)");
             Assert.IsTrue(evt.Id.Length == 64, "ID should be 64 characters (32 bytes in hex)");

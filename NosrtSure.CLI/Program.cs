@@ -48,6 +48,9 @@ internal class Program
 
         try
         {
+            // Per-operation timeout for WebSocket operations
+            using var operationCts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
             await client.ConnectAsync(relayUrl);
             Console.WriteLine("Connected!");
 
@@ -60,23 +63,61 @@ internal class Program
             Console.WriteLine($"Subscribing to text notes with subscription ID: {subscriptionId}");
             await client.SubscribeAsync(subscriptionId, filter);
 
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var messageCount = 0;
-            await foreach (var message in client.StreamAsync(subscriptionId, cts.Token))
+            var maxMessages = 35;
+            var maxTimeSeconds = 90;
+            var startTime = DateTime.UtcNow;
+
+            // Use the operation timeout for StreamAsync but handle cancellation gracefully
+            try
             {
-                Console.WriteLine($"[STREAM] Message type: {message.Type}");
-                messageCount++;
-                if (messageCount >= 20)
-                    break;
+                await foreach (var message in client.StreamAsync(subscriptionId, operationCts.Token))
+                {
+                    Console.WriteLine($"[STREAM] Message type: {message.Type}");
+                    messageCount++;
+                    Console.WriteLine($"Message count: {messageCount}");
+
+                    // Exit conditions: either max messages or max time
+                    if (messageCount >= maxMessages)
+                    {
+                        Console.WriteLine($"Reached maximum messages ({maxMessages}), stopping...");
+                        break;
+                    }
+
+                    if ((DateTime.UtcNow - startTime).TotalSeconds >= maxTimeSeconds)
+                    {
+                        Console.WriteLine($"Reached maximum time ({maxTimeSeconds}s), stopping...");
+                        break;
+                    }
+
+                    // Reset the operation timeout for the next message
+                    operationCts.CancelAfter(TimeSpan.FromSeconds(30));
+                }
+            }
+            catch (OperationCanceledException) when (operationCts.Token.IsCancellationRequested)
+            {
+                Console.WriteLine("Operation timed out waiting for messages (30s timeout)");
             }
 
             Console.WriteLine("Closing subscription...");
-            await client.CloseSubscriptionAsync(subscriptionId);
+
+            // Use a fresh timeout for the close operation
+            using var closeCts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            try
+            {
+                await client.CloseSubscriptionAsync(subscriptionId);
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("Warning: Close operation timed out");
+            }
+
             Console.WriteLine("CLI session completed.");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Fatal error: {ex.Message}");
+            throw;
         }
     }
 }
