@@ -213,28 +213,29 @@ var assemblies = [
   {
     "name": "NostrSure.Domain",
     "classes": [
-      { "name": "NostrSure.Domain.Entities.Follow", "rp": "NostrSure.Domain_Follow.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 12, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Entities.NostrEvent", "rp": "NostrSure.Domain_NostrEvent.html", "cl": 9, "ucl": 12, "cal": 21, "tl": 29, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Entities.NostrEventValidator", "rp": "NostrSure.Domain_NostrEventValidator.html", "cl": 92, "ucl": 62, "cal": 154, "tl": 252, "cb": 39, "tb": 50, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.Follow", "rp": "NostrSure.Domain_Follow.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 12, "cb": 4, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.NostrEvent", "rp": "NostrSure.Domain_NostrEvent.html", "cl": 21, "ucl": 0, "cal": 21, "tl": 29, "cb": 8, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.NostrEventValidator", "rp": "NostrSure.Domain_NostrEventValidator.html", "cl": 93, "ucl": 61, "cal": 154, "tl": 252, "cb": 40, "tb": 50, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.NostrTag", "rp": "NostrSure.Domain_NostrTag.html", "cl": 18, "ucl": 1, "cal": 19, "tl": 33, "cb": 13, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.Pubkey", "rp": "NostrSure.Domain_Pubkey.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 11, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Entities.Relay", "rp": "NostrSure.Domain_Relay.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 12, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Extensions.ServiceCollectionExtensions", "rp": "NostrSure.Domain_ServiceCollectionExtensions.html", "cl": 12, "ucl": 23, "cal": 35, "tl": 77, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.Relay", "rp": "NostrSure.Domain_Relay.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 17, "cb": 10, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Extensions.ServiceCollectionExtensions", "rp": "NostrSure.Domain_ServiceCollectionExtensions.html", "cl": 35, "ucl": 0, "cal": 35, "tl": 77, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.CachedEventIdCalculator", "rp": "NostrSure.Domain_CachedEventIdCalculator.html", "cl": 45, "ucl": 17, "cal": 62, "tl": 99, "cb": 3, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.EventIdValidator", "rp": "NostrSure.Domain_EventIdValidator.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 47, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.EventKindValidator", "rp": "NostrSure.Domain_EventKindValidator.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 23, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.EventSignatureValidator", "rp": "NostrSure.Domain_EventSignatureValidator.html", "cl": 26, "ucl": 8, "cal": 34, "tl": 66, "cb": 13, "tb": 22, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Services.EventTagValidator", "rp": "NostrSure.Domain_EventTagValidator.html", "cl": 13, "ucl": 12, "cal": 25, "tl": 49, "cb": 6, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Services.EventTagValidator", "rp": "NostrSure.Domain_EventTagValidator.html", "cl": 17, "ucl": 8, "cal": 25, "tl": 49, "cb": 9, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.ModularNostrEventValidator", "rp": "NostrSure.Domain_ModularNostrEventValidator.html", "cl": 57, "ucl": 6, "cal": 63, "tl": 111, "cb": 23, "tb": 42, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Services.OptimizedCryptographicService", "rp": "NostrSure.Domain_OptimizedCryptographicService.html", "cl": 6, "ucl": 3, "cal": 9, "tl": 27, "cb": 5, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Services.OptimizedCryptographicService", "rp": "NostrSure.Domain_OptimizedCryptographicService.html", "cl": 8, "ucl": 1, "cal": 9, "tl": 27, "cb": 9, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.OptimizedHexConverter", "rp": "NostrSure.Domain_OptimizedHexConverter.html", "cl": 46, "ucl": 5, "cal": 51, "tl": 88, "cb": 30, "tb": 40, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.SimpleEventIdCalculator", "rp": "NostrSure.Domain_SimpleEventIdCalculator.html", "cl": 29, "ucl": 1, "cal": 30, "tl": 54, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Validation.ValidationError", "rp": "NostrSure.Domain_ValidationError.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Validation.ValidationResult", "rp": "NostrSure.Domain_ValidationResult.html", "cl": 6, "ucl": 1, "cal": 7, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Validation.ValidationResult", "rp": "NostrSure.Domain_ValidationResult.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "NostrSure.Infrastructure",
     "classes": [
+      { "name": "NostrSure.Infrastructure.Client.Implementation.ClientWebSocketWrapper", "rp": "NostrSure.Infrastructure_ClientWebSocketWrapper.html", "cl": 4, "ucl": 10, "cal": 14, "tl": 34, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionErrorHandler", "rp": "NostrSure.Infrastructure_ConnectionErrorHandler.html", "cl": 42, "ucl": 2, "cal": 44, "tl": 69, "cb": 25, "tb": 29, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionManager", "rp": "NostrSure.Infrastructure_ConnectionManager.html", "cl": 49, "ucl": 10, "cal": 59, "tl": 97, "cb": 13, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionStateManager", "rp": "NostrSure.Infrastructure_ConnectionStateManager.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 55, "cb": 5, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -246,18 +247,18 @@ var assemblies = [
       { "name": "NostrSure.Infrastructure.Client.Implementation.NostrClient", "rp": "NostrSure.Infrastructure_NostrClient.html", "cl": 123, "ucl": 65, "cal": 188, "tl": 289, "cb": 43, "tb": 104, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.RetryBackoffPolicy", "rp": "NostrSure.Infrastructure_RetryBackoffPolicy.html", "cl": 28, "ucl": 0, "cal": 28, "tl": 58, "cb": 11, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Implementation.WebSocketConnection", "rp": "NostrSure.Infrastructure_WebSocketConnection.html", "cl": 46, "ucl": 3, "cal": 49, "tl": 101, "cb": 14, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Implementation.WebSocketFactory", "rp": "NostrSure.Infrastructure_WebSocketFactory.html", "cl": 22, "ucl": 0, "cal": 22, "tl": 46, "cb": 7, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Implementation.WebSocketFactory", "rp": "NostrSure.Infrastructure_WebSocketFactory.html", "cl": 23, "ucl": 0, "cal": 23, "tl": 47, "cb": 7, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.ClosedMessage", "rp": "NostrSure.Infrastructure_ClosedMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Messages.CloseMessage", "rp": "NostrSure.Infrastructure_CloseMessage.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Messages.CloseMessage", "rp": "NostrSure.Infrastructure_CloseMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.EoseMessage", "rp": "NostrSure.Infrastructure_EoseMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Messages.EventMessage", "rp": "NostrSure.Infrastructure_EventMessage.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Messages.EventMessage", "rp": "NostrSure.Infrastructure_EventMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.NostrMessage", "rp": "NostrSure.Infrastructure_NostrMessage.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.NoticeMessage", "rp": "NostrSure.Infrastructure_NoticeMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.OkMessage", "rp": "NostrSure.Infrastructure_OkMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.RelayEventMessage", "rp": "NostrSure.Infrastructure_RelayEventMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.Messages.ReqMessage", "rp": "NostrSure.Infrastructure_ReqMessage.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Client.ServiceCollectionExtensions", "rp": "NostrSure.Infrastructure_ServiceCollectionExtensions.html", "cl": 0, "ucl": 31, "cal": 31, "tl": 75, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "rp": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "cl": 131, "ucl": 15, "cal": 146, "tl": 218, "cb": 47, "tb": 62, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.Messages.ReqMessage", "rp": "NostrSure.Infrastructure_ReqMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Client.ServiceCollectionExtensions", "rp": "NostrSure.Infrastructure_ServiceCollectionExtensions.html", "cl": 31, "ucl": 0, "cal": 31, "tl": 75, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "rp": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "cl": 148, "ucl": 10, "cal": 158, "tl": 231, "cb": 59, "tb": 78, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
@@ -284,22 +285,16 @@ var riskHotspots = [
       { "value": 12, "exceeded": false },
     ]},
   {
-    "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.NostrEvent", "reportPath": "NostrSure.Domain_NostrEvent.html", "methodName": "Validate(NostrSure.Domain.Interfaces.INostrEventValidator,System.Collections.Generic.List`1<System.String>&)", "methodShortName": "Validate(...)", "fileIndex": 0, "line": 17,
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "Read(System.Text.Json.Utf8JsonReader&,System.Type,System.Text.Json.JsonSerializerOptions)", "methodShortName": "Read(...)", "fileIndex": 0, "line": 29,
     "metrics": [
-      { "value": 72, "exceeded": true },
-      { "value": 8, "exceeded": false },
+      { "value": 51, "exceeded": true },
+      { "value": 50, "exceeded": true },
     ]},
   {
     "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "ReceiveLoopAsync()", "methodShortName": "ReceiveLoopAsync()", "fileIndex": 0, "line": 128,
     "metrics": [
       { "value": 49, "exceeded": true },
       { "value": 14, "exceeded": false },
-    ]},
-  {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "Read(System.Text.Json.Utf8JsonReader&,System.Type,System.Text.Json.JsonSerializerOptions)", "methodShortName": "Read(...)", "fileIndex": 0, "line": 29,
-    "metrics": [
-      { "value": 43, "exceeded": true },
-      { "value": 40, "exceeded": true },
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Services.EventSignatureValidator", "reportPath": "NostrSure.Domain_EventSignatureValidator.html", "methodName": "ValidateSignature(NostrSure.Domain.Entities.NostrEvent)", "methodShortName": "ValidateSignature(...)", "fileIndex": 0, "line": 27,
@@ -350,7 +345,7 @@ var riskHotspots = [
       { "value": 20, "exceeded": true },
     ]},
   {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "ReadTagsOptimized(System.Text.Json.Utf8JsonReader&)", "methodShortName": "ReadTagsOptimized(...)", "fileIndex": 0, "line": 122,
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "ReadTagsOptimized(System.Text.Json.Utf8JsonReader&)", "methodShortName": "ReadTagsOptimized(...)", "fileIndex": 0, "line": 135,
     "metrics": [
       { "value": 18, "exceeded": false },
       { "value": 18, "exceeded": true },
