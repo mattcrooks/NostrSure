@@ -26,15 +26,16 @@ public class WebSocketFactory : IWebSocketFactory
     {
         // Create shared WebSocket instance
         var webSocket = new ClientWebSocket();
+        var webSocketWrapper = new ClientWebSocketWrapper(webSocket);
         
         // Create component implementations
         var stateManager = new ConnectionStateManager(_loggerFactory?.CreateLogger<ConnectionStateManager>());
         var errorHandler = new ConnectionErrorHandler(_loggerFactory?.CreateLogger<ConnectionErrorHandler>());
-        var connectionManager = new ConnectionManager(webSocket, stateManager, errorHandler, _loggerFactory?.CreateLogger<ConnectionManager>());
+        var connectionManager = new ConnectionManager(webSocketWrapper, stateManager, errorHandler, _loggerFactory?.CreateLogger<ConnectionManager>());
         var messageReceiver = new MessageReceiver(webSocket, errorHandler, stateManager, _stringBuilderPool, _loggerFactory?.CreateLogger<MessageReceiver>());
         var messageSender = new MessageSender(webSocket, errorHandler, stateManager, _loggerFactory?.CreateLogger<MessageSender>());
 
-        // Create façade
+        // Create faï¿½ade
         return new WebSocketConnection(
             connectionManager,
             messageReceiver,

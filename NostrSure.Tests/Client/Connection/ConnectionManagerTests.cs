@@ -11,7 +11,7 @@ namespace NostrSure.Tests.Client.Connection;
 [TestCategory("Connection")]
 public class ConnectionManagerTests
 {
-    private ClientWebSocket _webSocket = null!;
+    private MockClientWebSocket _webSocket = null!;
     private ConnectionStateManager _stateManager = null!;
     private ConnectionErrorHandler _errorHandler = null!;
     private ConnectionManager _manager = null!;
@@ -20,7 +20,7 @@ public class ConnectionManagerTests
     [TestInitialize]
     public void Setup()
     {
-        _webSocket = new ClientWebSocket();
+        _webSocket = new MockClientWebSocket();
         _stateManager = new ConnectionStateManager();
         _errorHandler = new ConnectionErrorHandler();
         _manager = new ConnectionManager(_webSocket, _stateManager, _errorHandler);
@@ -31,7 +31,7 @@ public class ConnectionManagerTests
     [TestMethod]
     public async Task ConnectAsync_UpdatesState()
     {
-        await _manager.ConnectAsync(new Uri("wss://relay.damus.io"));
+        await _manager.ConnectAsync(new Uri("wss://relay.example.com"));
         Assert.AreEqual(WebSocketState.Open, _manager.State);
         Assert.IsTrue(_stateManager.IsConnected);
     }
@@ -39,7 +39,7 @@ public class ConnectionManagerTests
     [TestMethod]
     public async Task CloseAsync_UpdatesStateAndFiresEvent()
     {
-        await _manager.ConnectAsync(new Uri("wss://relay.damus.io"));
+        await _manager.ConnectAsync(new Uri("wss://relay.example.com"));
         await _manager.CloseAsync();
         Assert.AreNotEqual(WebSocketState.Open, _manager.State);
         Assert.IsTrue(_disconnectedFired);
@@ -49,5 +49,36 @@ public class ConnectionManagerTests
     public void Dispose_CancelsAndDisposes()
     {
         _manager.Dispose();
+    }
+
+    // Mock implementation for testing
+    private class MockClientWebSocket : IClientWebSocket
+    {
+        private WebSocketState _state = WebSocketState.None;
+
+        public WebSocketState State => _state;
+
+        public Task ConnectAsync(Uri uri, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException(cancellationToken);
+
+            _state = WebSocketState.Open;
+            return Task.CompletedTask;
+        }
+
+        public Task CloseAsync(WebSocketCloseStatus closeStatus, string? statusDescription, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException(cancellationToken);
+
+            _state = WebSocketState.Closed;
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _state = WebSocketState.Closed;
+        }
     }
 }

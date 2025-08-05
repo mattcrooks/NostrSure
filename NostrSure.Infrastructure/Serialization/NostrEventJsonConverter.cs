@@ -39,7 +39,6 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         string? sig = null;
 
         var fieldsFound = 0;
-        const int requiredFields = 7;
 
         while (reader.Read())
         {
@@ -75,12 +74,26 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
             }
             else if (propertyNameSpan.SequenceEqual(TagsPropertyName))
             {
-                tags = ReadTagsOptimized(ref reader);
+                if (reader.TokenType == JsonTokenType.Null)
+                {
+                    tags = new List<NostrTag>();
+                }
+                else
+                {
+                    tags = ReadTagsOptimized(ref reader);
+                }
                 fieldsFound++;
             }
             else if (propertyNameSpan.SequenceEqual(ContentPropertyName))
             {
-                content = reader.GetString();
+                if (reader.TokenType == JsonTokenType.Null)
+                {
+                    content = string.Empty;
+                }
+                else
+                {
+                    content = reader.GetString();
+                }
                 fieldsFound++;
             }
             else if (propertyNameSpan.SequenceEqual(SigPropertyName))
@@ -95,7 +108,7 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         }
 
         // Validate all required fields are present and handle nullable types properly
-        if (fieldsFound != requiredFields ||
+        if (fieldsFound < 5 || // At minimum need id, pubkey, created_at, kind, tags (content and sig can be null)
             id is null || pubkey is null || createdAt is null ||
             kindInt is null || tags is null)
         {
@@ -103,13 +116,13 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         }
 
         // Fast EventKind validation using HashSet lookup
-        if (!ValidEventKinds.Contains(kindInt.Value))
+        if (!ValidEventKinds.Contains(kindInt!.Value))
             ThrowUnknownEventKindException(kindInt.Value);
 
         return new NostrEvent(
             id ?? string.Empty,
             new Pubkey(pubkey ?? string.Empty),
-            DateTimeOffset.FromUnixTimeSeconds(createdAt.Value),
+            DateTimeOffset.FromUnixTimeSeconds(createdAt!.Value),
             (EventKind)kindInt.Value,
             tags ?? new List<NostrTag>(),
             content ?? string.Empty,
@@ -172,10 +185,10 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
 
         // Inline tags serialization for better performance
         writer.WritePropertyName(TagsPropertyName);
-        WriteTagsOptimized(writer, value.Tags);
+        WriteTagsOptimized(writer, value.Tags ?? new List<NostrTag>());
 
-        writer.WriteString(ContentPropertyName, value.Content);
-        writer.WriteString(SigPropertyName, value.Sig);
+        writer.WriteString(ContentPropertyName, value.Content ?? string.Empty);
+        writer.WriteString(SigPropertyName, value.Sig ?? string.Empty);
 
         writer.WriteEndObject();
     }
