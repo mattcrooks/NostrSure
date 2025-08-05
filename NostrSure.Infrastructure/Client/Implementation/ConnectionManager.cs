@@ -9,7 +9,7 @@ namespace NostrSure.Infrastructure.Client.Implementation;
 /// </summary>
 public sealed class ConnectionManager : IConnectionManager
 {
-    private readonly ClientWebSocket _webSocket;
+    private readonly IClientWebSocket _webSocket;
     private readonly IConnectionStateManager _stateManager;
     private readonly IConnectionErrorHandler _errorHandler;
     private readonly CancellationTokenSource _cancellationTokenSource;
@@ -17,7 +17,7 @@ public sealed class ConnectionManager : IConnectionManager
     private bool _disposed;
 
     public ConnectionManager(
-        ClientWebSocket webSocket,
+        IClientWebSocket webSocket,
         IConnectionStateManager stateManager,
         IConnectionErrorHandler errorHandler,
         ILogger<ConnectionManager>? logger = null)
