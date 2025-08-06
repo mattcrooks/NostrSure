@@ -103,6 +103,12 @@ public sealed record ContactListEvent(
                 return false;
         }
 
+        // Local function to generate a unique key for a tag
+        static string TagKey(NostrTag tag)
+        {
+            return $"{tag.Name}:{string.Join(":", tag.Values)}";
+        }
+
         return true;
     }
 
