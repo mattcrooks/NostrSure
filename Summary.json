@@ -1,32 +1,34 @@
 {
   "summary": {
-    "generatedon": "2025-08-05T06:58:18Z",
+    "generatedon": "2025-08-06T05:09:32Z",
     "parser": "Cobertura",
     "assemblies": 2,
-    "classes": 42,
-    "files": 33,
-    "coveredlines": 1154,
-    "uncoveredlines": 286,
-    "coverablelines": 1440,
-    "totallines": 2561,
-    "linecoverage": 80.1,
-    "coveredbranches": 423,
-    "totalbranches": 665,
-    "branchcoverage": 63.6,
-    "coveredmethods": 155,
-    "fullcoveredmethods": 121,
-    "totalmethods": 173,
-    "methodcoverage": 89.5,
-    "fullmethodcoverage": 69.9
+    "classes": 44,
+    "files": 35,
+    "coveredlines": 1266,
+    "uncoveredlines": 316,
+    "coverablelines": 1582,
+    "totallines": 2827,
+    "linecoverage": 80,
+    "coveredbranches": 466,
+    "totalbranches": 731,
+    "branchcoverage": 63.7,
+    "coveredmethods": 173,
+    "fullcoveredmethods": 136,
+    "totalmethods": 193,
+    "methodcoverage": 89.6,
+    "fullmethodcoverage": 70.4
  },
   "coverage": {
     "assemblies": [
-      { "name": "NostrSure.Domain", "classes": 18, "coverage": 80.8, "coveredlines": 457, "coverablelines": 565, "totallines": 1069, "branchcoverage": 72.6, "coveredbranches": 167, "totalbranches": 230, "methodcoverage": 91.3, "fullmethodcoverage": 71, "coveredmethods": 63, "fullcoveredmethods": 49, "totalmethods": 69, "classesinassembly": [
+      { "name": "NostrSure.Domain", "classes": 20, "coverage": 80.2, "coveredlines": 561, "coverablelines": 699, "totallines": 1319, "branchcoverage": 70.7, "coveredbranches": 208, "totalbranches": 294, "methodcoverage": 90.9, "fullmethodcoverage": 71.5, "coveredmethods": 80, "fullcoveredmethods": 63, "totalmethods": 88, "classesinassembly": [
+        { "name": "NostrSure.Domain.Entities.ContactEntry", "coverage": 100, "coveredlines": 40, "coverablelines": 40, "totallines": 75, "branchcoverage": 94.4, "coveredbranches": 17, "totalbranches": 18, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 8, "fullcoveredmethods": 8, "totalmethods": 8 },
+        { "name": "NostrSure.Domain.Entities.ContactListEvent", "coverage": 65.8, "coveredlines": 54, "coverablelines": 82, "totallines": 156, "branchcoverage": 46.4, "coveredbranches": 13, "totalbranches": 28, "methodcoverage": 77.7, "fullmethodcoverage": 66.6, "coveredmethods": 7, "fullcoveredmethods": 6, "totalmethods": 9 },
         { "name": "NostrSure.Domain.Entities.Follow", "coverage": 100, "coveredlines": 7, "coverablelines": 7, "totallines": 12, "branchcoverage": 100, "coveredbranches": 4, "totalbranches": 4, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 3, "fullcoveredmethods": 3, "totalmethods": 3 },
         { "name": "NostrSure.Domain.Entities.NostrEvent", "coverage": 100, "coveredlines": 21, "coverablelines": 21, "totallines": 29, "branchcoverage": 100, "coveredbranches": 8, "totalbranches": 8, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 9, "fullcoveredmethods": 9, "totalmethods": 9 },
         { "name": "NostrSure.Domain.Entities.NostrEventValidator", "coverage": 60.3, "coveredlines": 93, "coverablelines": 154, "totallines": 252, "branchcoverage": 80, "coveredbranches": 40, "totalbranches": 50, "methodcoverage": 70, "fullmethodcoverage": 30, "coveredmethods": 7, "fullcoveredmethods": 3, "totalmethods": 10 },
         { "name": "NostrSure.Domain.Entities.NostrTag", "coverage": 94.7, "coveredlines": 18, "coverablelines": 19, "totallines": 33, "branchcoverage": 72.2, "coveredbranches": 13, "totalbranches": 18, "methodcoverage": 100, "fullmethodcoverage": 80, "coveredmethods": 5, "fullcoveredmethods": 4, "totalmethods": 5 },
-        { "name": "NostrSure.Domain.Entities.Pubkey", "coverage": 100, "coveredlines": 6, "coverablelines": 6, "totallines": 11, "branchcoverage": 50, "coveredbranches": 1, "totalbranches": 2, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 2, "fullcoveredmethods": 2, "totalmethods": 2 },
+        { "name": "NostrSure.Domain.Entities.Pubkey", "coverage": 88.8, "coveredlines": 16, "coverablelines": 18, "totallines": 30, "branchcoverage": 60, "coveredbranches": 12, "totalbranches": 20, "methodcoverage": 100, "fullmethodcoverage": 50, "coveredmethods": 4, "fullcoveredmethods": 2, "totalmethods": 4 },
         { "name": "NostrSure.Domain.Entities.Relay", "coverage": 100, "coveredlines": 9, "coverablelines": 9, "totallines": 17, "branchcoverage": 100, "coveredbranches": 10, "totalbranches": 10, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 2, "fullcoveredmethods": 2, "totalmethods": 2 },
         { "name": "NostrSure.Domain.Extensions.ServiceCollectionExtensions", "coverage": 100, "coveredlines": 35, "coverablelines": 35, "totallines": 77, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 3, "fullcoveredmethods": 3, "totalmethods": 3 },
         { "name": "NostrSure.Domain.Services.CachedEventIdCalculator", "coverage": 72.5, "coveredlines": 45, "coverablelines": 62, "totallines": 99, "branchcoverage": 37.5, "coveredbranches": 3, "totalbranches": 8, "methodcoverage": 75, "fullmethodcoverage": 25, "coveredmethods": 3, "fullcoveredmethods": 1, "totalmethods": 4 },
@@ -40,7 +42,7 @@
         { "name": "NostrSure.Domain.Services.SimpleEventIdCalculator", "coverage": 96.6, "coveredlines": 29, "coverablelines": 30, "totallines": 54, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 66.6, "fullmethodcoverage": 66.6, "coveredmethods": 2, "fullcoveredmethods": 2, "totalmethods": 3 },
         { "name": "NostrSure.Domain.Validation.ValidationError", "coverage": 100, "coveredlines": 1, "coverablelines": 1, "totallines": 37, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 1, "fullcoveredmethods": 1, "totalmethods": 1 },
         { "name": "NostrSure.Domain.Validation.ValidationResult", "coverage": 100, "coveredlines": 7, "coverablelines": 7, "totallines": 37, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 7, "fullcoveredmethods": 7, "totalmethods": 7 } ] },
-      { "name": "NostrSure.Infrastructure", "classes": 24, "coverage": 79.6, "coveredlines": 697, "coverablelines": 875, "totallines": 1977, "branchcoverage": 58.8, "coveredbranches": 256, "totalbranches": 435, "methodcoverage": 88.4, "fullmethodcoverage": 69.2, "coveredmethods": 92, "fullcoveredmethods": 72, "totalmethods": 104, "classesinassembly": [
+      { "name": "NostrSure.Infrastructure", "classes": 24, "coverage": 79.8, "coveredlines": 705, "coverablelines": 883, "totallines": 1993, "branchcoverage": 59, "coveredbranches": 258, "totalbranches": 437, "methodcoverage": 88.5, "fullmethodcoverage": 69.5, "coveredmethods": 93, "fullcoveredmethods": 73, "totalmethods": 105, "classesinassembly": [
         { "name": "NostrSure.Infrastructure.Client.Implementation.ClientWebSocketWrapper", "coverage": 28.5, "coveredlines": 4, "coverablelines": 14, "totallines": 34, "branchcoverage": 50, "coveredbranches": 1, "totalbranches": 2, "methodcoverage": 20, "fullmethodcoverage": 20, "coveredmethods": 1, "fullcoveredmethods": 1, "totalmethods": 5 },
         { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionErrorHandler", "coverage": 95.4, "coveredlines": 42, "coverablelines": 44, "totallines": 69, "branchcoverage": 86.2, "coveredbranches": 25, "totalbranches": 29, "methodcoverage": 100, "fullmethodcoverage": 66.6, "coveredmethods": 3, "fullcoveredmethods": 2, "totalmethods": 3 },
         { "name": "NostrSure.Infrastructure.Client.Implementation.ConnectionManager", "coverage": 83, "coveredlines": 49, "coverablelines": 59, "totallines": 97, "branchcoverage": 50, "coveredbranches": 13, "totalbranches": 26, "methodcoverage": 100, "fullmethodcoverage": 60, "coveredmethods": 5, "fullcoveredmethods": 3, "totalmethods": 5 },
@@ -64,6 +66,6 @@
         { "name": "NostrSure.Infrastructure.Client.Messages.RelayEventMessage", "coverage": 100, "coveredlines": 2, "coverablelines": 2, "totallines": 56, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 2, "fullcoveredmethods": 2, "totalmethods": 2 },
         { "name": "NostrSure.Infrastructure.Client.Messages.ReqMessage", "coverage": 100, "coveredlines": 2, "coverablelines": 2, "totallines": 56, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 2, "fullcoveredmethods": 2, "totalmethods": 2 },
         { "name": "NostrSure.Infrastructure.Client.ServiceCollectionExtensions", "coverage": 100, "coveredlines": 31, "coverablelines": 31, "totallines": 75, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "fullmethodcoverage": 100, "coveredmethods": 2, "fullcoveredmethods": 2, "totalmethods": 2 },
-        { "name": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "coverage": 93.6, "coveredlines": 148, "coverablelines": 158, "totallines": 231, "branchcoverage": 75.6, "coveredbranches": 59, "totalbranches": 78, "methodcoverage": 86.6, "fullmethodcoverage": 73.3, "coveredmethods": 13, "fullcoveredmethods": 11, "totalmethods": 15 } ] } ]
+        { "name": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "coverage": 93.9, "coveredlines": 156, "coverablelines": 166, "totallines": 247, "branchcoverage": 76.2, "coveredbranches": 61, "totalbranches": 80, "methodcoverage": 87.5, "fullmethodcoverage": 75, "coveredmethods": 14, "fullcoveredmethods": 12, "totalmethods": 16 } ] } ]
   }
 }

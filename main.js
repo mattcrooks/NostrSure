@@ -213,11 +213,13 @@ var assemblies = [
   {
     "name": "NostrSure.Domain",
     "classes": [
+      { "name": "NostrSure.Domain.Entities.ContactEntry", "rp": "NostrSure.Domain_ContactEntry.html", "cl": 40, "ucl": 0, "cal": 40, "tl": 75, "cb": 17, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.ContactListEvent", "rp": "NostrSure.Domain_ContactListEvent.html", "cl": 54, "ucl": 28, "cal": 82, "tl": 156, "cb": 13, "tb": 28, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.Follow", "rp": "NostrSure.Domain_Follow.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 12, "cb": 4, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.NostrEvent", "rp": "NostrSure.Domain_NostrEvent.html", "cl": 21, "ucl": 0, "cal": 21, "tl": 29, "cb": 8, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.NostrEventValidator", "rp": "NostrSure.Domain_NostrEventValidator.html", "cl": 93, "ucl": 61, "cal": 154, "tl": 252, "cb": 40, "tb": 50, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.NostrTag", "rp": "NostrSure.Domain_NostrTag.html", "cl": 18, "ucl": 1, "cal": 19, "tl": 33, "cb": 13, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Domain.Entities.Pubkey", "rp": "NostrSure.Domain_Pubkey.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 11, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Domain.Entities.Pubkey", "rp": "NostrSure.Domain_Pubkey.html", "cl": 16, "ucl": 2, "cal": 18, "tl": 30, "cb": 12, "tb": 20, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Entities.Relay", "rp": "NostrSure.Domain_Relay.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 17, "cb": 10, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Extensions.ServiceCollectionExtensions", "rp": "NostrSure.Domain_ServiceCollectionExtensions.html", "cl": 35, "ucl": 0, "cal": 35, "tl": 77, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Domain.Services.CachedEventIdCalculator", "rp": "NostrSure.Domain_CachedEventIdCalculator.html", "cl": 45, "ucl": 17, "cal": 62, "tl": 99, "cb": 3, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -258,7 +260,7 @@ var assemblies = [
       { "name": "NostrSure.Infrastructure.Client.Messages.RelayEventMessage", "rp": "NostrSure.Infrastructure_RelayEventMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.Messages.ReqMessage", "rp": "NostrSure.Infrastructure_ReqMessage.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "NostrSure.Infrastructure.Client.ServiceCollectionExtensions", "rp": "NostrSure.Infrastructure_ServiceCollectionExtensions.html", "cl": 31, "ucl": 0, "cal": 31, "tl": 75, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "rp": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "cl": 148, "ucl": 10, "cal": 158, "tl": 231, "cb": 59, "tb": 78, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "rp": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "cl": 156, "ucl": 10, "cal": 166, "tl": 247, "cb": 61, "tb": 80, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
@@ -285,16 +287,28 @@ var riskHotspots = [
       { "value": 12, "exceeded": false },
     ]},
   {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "Read(System.Text.Json.Utf8JsonReader&,System.Type,System.Text.Json.JsonSerializerOptions)", "methodShortName": "Read(...)", "fileIndex": 0, "line": 29,
+    "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.ContactListEvent", "reportPath": "NostrSure.Domain_ContactListEvent.html", "methodName": "TagsMatch(NostrSure.Domain.Entities.NostrTag,NostrSure.Domain.Entities.NostrTag)", "methodShortName": "TagsMatch(...)", "fileIndex": 0, "line": 144,
     "metrics": [
-      { "value": 51, "exceeded": true },
-      { "value": 50, "exceeded": true },
+      { "value": 72, "exceeded": true },
+      { "value": 8, "exceeded": false },
+    ]},
+  {
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "Read(System.Text.Json.Utf8JsonReader&,System.Type,System.Text.Json.JsonSerializerOptions)", "methodShortName": "Read(...)", "fileIndex": 0, "line": 34,
+    "metrics": [
+      { "value": 53, "exceeded": true },
+      { "value": 52, "exceeded": true },
     ]},
   {
     "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Client.Implementation.MessageReceiver", "reportPath": "NostrSure.Infrastructure_MessageReceiver.html", "methodName": "ReceiveLoopAsync()", "methodShortName": "ReceiveLoopAsync()", "fileIndex": 0, "line": 128,
     "metrics": [
       { "value": 49, "exceeded": true },
       { "value": 14, "exceeded": false },
+    ]},
+  {
+    "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Entities.ContactListEvent", "reportPath": "NostrSure.Domain_ContactListEvent.html", "methodName": "Validate(NostrSure.Domain.Interfaces.INostrEventValidator,System.Collections.Generic.List`1<System.String>&)", "methodShortName": "Validate(...)", "fileIndex": 0, "line": 119,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
     ]},
   {
     "assembly": "NostrSure.Domain", "class": "NostrSure.Domain.Services.EventSignatureValidator", "reportPath": "NostrSure.Domain_EventSignatureValidator.html", "methodName": "ValidateSignature(NostrSure.Domain.Entities.NostrEvent)", "methodShortName": "ValidateSignature(...)", "fileIndex": 0, "line": 27,
@@ -345,7 +359,7 @@ var riskHotspots = [
       { "value": 20, "exceeded": true },
     ]},
   {
-    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "ReadTagsOptimized(System.Text.Json.Utf8JsonReader&)", "methodShortName": "ReadTagsOptimized(...)", "fileIndex": 0, "line": 135,
+    "assembly": "NostrSure.Infrastructure", "class": "NostrSure.Infrastructure.Serialization.NostrEventJsonConverter", "reportPath": "NostrSure.Infrastructure_NostrEventJsonConverter.html", "methodName": "ReadTagsOptimized(System.Text.Json.Utf8JsonReader&)", "methodShortName": "ReadTagsOptimized(...)", "fileIndex": 0, "line": 151,
     "metrics": [
       { "value": 18, "exceeded": false },
       { "value": 18, "exceeded": true },
