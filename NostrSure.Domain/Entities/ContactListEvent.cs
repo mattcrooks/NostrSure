@@ -94,11 +94,12 @@ public sealed record ContactListEvent(
         if (pTags.Count != Contacts.Count)
             return false;
 
-        // Verify each contact has a corresponding p tag
-        for (int i = 0; i < Contacts.Count; i++)
+        // Use a HashSet for efficient lookup
+        var pTagSet = new HashSet<string>(pTags.Select(TagKey));
+        foreach (var contact in Contacts)
         {
-            var expectedTag = Contacts[i].ToPTag();
-            if (!pTags.Any(tag => TagsMatch(tag, expectedTag)))
+            var expectedTag = contact.ToPTag();
+            if (!pTagSet.Contains(TagKey(expectedTag)))
                 return false;
         }
 
