@@ -3,7 +3,7 @@ namespace NostrSure.Domain.Entities;
 using NostrSure.Domain.Interfaces;
 using NostrSure.Domain.ValueObjects;
 
-public sealed record NostrEvent(
+public record NostrEvent(
     string Id,
     Pubkey Pubkey,
     DateTimeOffset CreatedAt,
@@ -13,7 +13,7 @@ public sealed record NostrEvent(
     string Sig
 )
 {
-    public bool Validate(INostrEventValidator validator, out List<string> errors)
+    public virtual bool Validate(INostrEventValidator validator, out List<string> errors)
     {
         errors = new List<string>();
         if (!validator.ValidateEventId(this, out var idError))

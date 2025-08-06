@@ -25,6 +25,11 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         (int)EventKind.Zap
     };
 
+    public override bool CanConvert(Type typeToConvert)
+    {
+        return typeof(NostrEvent).IsAssignableFrom(typeToConvert);
+    }
+
     public override NostrEvent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
@@ -108,26 +113,39 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
         }
 
         // Validate all required fields are present and handle nullable types properly
-        if (fieldsFound < 5 || // At minimum need id, pubkey, created_at, kind, tags (content and sig can be null)
+        // We need at minimum: id, pubkey, created_at, kind, tags
+        // content and sig are always written but can be empty strings
+        if (fieldsFound < 5 ||
             id is null || pubkey is null || createdAt is null ||
             kindInt is null || tags is null)
         {
-            ThrowMissingRequiredFieldsException();
+            // Debug: Create detailed error message
+            var errorDetails = $"Validation failed: fieldsFound={fieldsFound}, id={(id != null ? "SET" : "NULL")}, pubkey={(pubkey != null ? "SET" : "NULL")}, createdAt={(createdAt != null ? "SET" : "NULL")}, kindInt={(kindInt != null ? "SET" : "NULL")}, tags={(tags != null ? "SET" : "NULL")}";
+            throw new JsonException($"Missing required NostrEvent fields. {errorDetails}");
         }
 
         // Fast EventKind validation using HashSet lookup
         if (!ValidEventKinds.Contains(kindInt!.Value))
             ThrowUnknownEventKindException(kindInt.Value);
 
-        return new NostrEvent(
+        var eventKind = (EventKind)kindInt.Value;
+        var baseEvent = new NostrEvent(
             id ?? string.Empty,
             new Pubkey(pubkey ?? string.Empty),
             DateTimeOffset.FromUnixTimeSeconds(createdAt!.Value),
-            (EventKind)kindInt.Value,
+            eventKind,
             tags ?? new List<NostrTag>(),
             content ?? string.Empty,
             sig ?? string.Empty
         );
+
+        // For ContactList events, return ContactListEvent with extracted contacts
+        if (eventKind == EventKind.ContactList)
+        {
+            return ContactListEvent.FromNostrEvent(baseEvent);
+        }
+
+        return baseEvent;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

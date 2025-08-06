@@ -72,6 +72,15 @@ namespace NostrSure.Tests.Serialization
             var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
 
             Assert.IsNotNull(evt);
+            Assert.AreEqual(EventKind.ContactList, evt.Kind);
+            Assert.IsInstanceOfType(evt, typeof(ContactListEvent));
+
+            var contactList = (ContactListEvent)evt;
+            Assert.AreEqual(2, contactList.Contacts.Count);
+            Assert.AreEqual("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c", contactList.Contacts[0].ContactPubkey.Value);
+            Assert.AreEqual("a39199ccb5ec92b1cd047bf3dc7e8923ede769d1a5ccc47d579912f0f5cbdab4", contactList.Contacts[1].ContactPubkey.Value);
+
+            // Verify the tags are still accessible via base class
             Assert.AreEqual(2, evt.Tags.Count);
             foreach (var tag in evt.Tags)
             {
@@ -476,6 +485,148 @@ namespace NostrSure.Tests.Serialization
             var validator = new NostrEventValidator();
             var result = validator.Validate(evt!);
             Assert.IsFalse(result.IsValid, "Event should be invalid due to incorrect pubkey in p tag");
+        }
+
+        [TestMethod]
+        public void CanDeserialize_ContactListEvent_WithPetnamesAndRelays()
+        {
+            var json = """
+            {
+                "content": "My contact list",
+                "created_at": 1750012616,
+                "id": "contact_list_id_123",
+                "kind": 3,
+                "pubkey": "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2",
+                "sig": "sigvalue123",
+                "tags": [
+                    ["p", "b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c", "alice", "wss://relay.example.com"],
+                    ["p", "a39199ccb5ec92b1cd047bf3dc7e8923ede769d1a5ccc47d579912f0f5cbdab4", "bob"],
+                    ["p", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", "", "wss://another-relay.com"]
+                ]
+            }
+            """;
+
+            var evt = JsonSerializer.Deserialize<NostrEvent>(json, GetOptions());
+            Assert.IsNotNull(evt);
+            Assert.AreEqual(EventKind.ContactList, evt.Kind);
+            Assert.IsInstanceOfType(evt, typeof(ContactListEvent));
+
+            var contactList = (ContactListEvent)evt;
+            Assert.AreEqual(3, contactList.Contacts.Count);
+
+            // First contact: full petname and relay
+            Assert.AreEqual("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c", contactList.Contacts[0].ContactPubkey.Value);
+            Assert.AreEqual("alice", contactList.Contacts[0].Petname);
+            Assert.AreEqual("wss://relay.example.com", contactList.Contacts[0].RelayUrl);
+
+            // Second contact: petname only
+            Assert.AreEqual("a39199ccb5ec92b1cd047bf3dc7e8923ede769d1a5ccc47d579912f0f5cbdab4", contactList.Contacts[1].ContactPubkey.Value);
+            Assert.AreEqual("bob", contactList.Contacts[1].Petname);
+            Assert.IsNull(contactList.Contacts[1].RelayUrl);
+
+            // Third contact: relay URL with empty petname
+            Assert.AreEqual("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", contactList.Contacts[2].ContactPubkey.Value);
+            Assert.IsNull(contactList.Contacts[2].Petname);
+            Assert.AreEqual("wss://another-relay.com", contactList.Contacts[2].RelayUrl);
+        }
+
+        [TestMethod]
+        public void RoundTrip_ContactListEvent_Serialization()
+        {
+            var contacts = new List<ContactEntry>
+            {
+                new ContactEntry(new Pubkey("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c"), "alice", "wss://relay1.example.com"),
+                new ContactEntry(new Pubkey("a39199ccb5ec92b1cd047bf3dc7e8923ede769d1a5ccc47d579912f0f5cbdab4"), "bob"),
+                new ContactEntry(new Pubkey("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"), null, "wss://relay2.example.com")
+            };
+
+            var originalEvent = ContactListEvent.Create(
+                "test_contact_list_id",
+                new Pubkey("82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2"),
+                DateTimeOffset.FromUnixTimeSeconds(1673311423),
+                "My contact list",
+                "test_sig",
+                contacts
+            );
+
+            var options = GetOptions();
+            var json = JsonSerializer.Serialize(originalEvent, options);
+            var deserializedEvent = JsonSerializer.Deserialize<NostrEvent>(json, options);
+
+            Assert.IsNotNull(deserializedEvent);
+            Assert.IsInstanceOfType(deserializedEvent, typeof(ContactListEvent));
+
+            var contactList = (ContactListEvent)deserializedEvent;
+            Assert.AreEqual(3, contactList.Contacts.Count);
+
+            // Verify first contact
+            Assert.AreEqual("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c", contactList.Contacts[0].ContactPubkey.Value);
+            Assert.AreEqual("alice", contactList.Contacts[0].Petname);
+            Assert.AreEqual("wss://relay1.example.com", contactList.Contacts[0].RelayUrl);
+
+            // Verify second contact
+            Assert.AreEqual("a39199ccb5ec92b1cd047bf3dc7e8923ede769d1a5ccc47d579912f0f5cbdab4", contactList.Contacts[1].ContactPubkey.Value);
+            Assert.AreEqual("bob", contactList.Contacts[1].Petname);
+            Assert.IsNull(contactList.Contacts[1].RelayUrl);
+
+            // Verify third contact
+            Assert.AreEqual("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", contactList.Contacts[2].ContactPubkey.Value);
+            Assert.IsNull(contactList.Contacts[2].Petname);
+            Assert.AreEqual("wss://relay2.example.com", contactList.Contacts[2].RelayUrl);
+        }
+
+        [TestMethod]
+        public void ContactEntry_FromPTag_ValidatesCorrectly()
+        {
+            var fullPTag = new NostrTag("p", new[] {
+                "b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c",
+                "alice",
+                "wss://relay.example.com"
+            });
+            var contact = ContactEntry.FromPTag(fullPTag);
+
+            Assert.AreEqual("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c", contact.ContactPubkey.Value);
+            Assert.AreEqual("alice", contact.Petname);
+            Assert.AreEqual("wss://relay.example.com", contact.RelayUrl);
+            Assert.IsTrue(contact.IsValid);
+        }
+
+        [TestMethod]
+        public void ContactEntry_ToPTag_RoundTrip()
+        {
+            var contact = new ContactEntry(
+                new Pubkey("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c"),
+                "alice",
+                "wss://relay.example.com"
+            );
+
+            var pTag = contact.ToPTag();
+            var roundTripContact = ContactEntry.FromPTag(pTag);
+
+            Assert.AreEqual(contact.ContactPubkey.Value, roundTripContact.ContactPubkey.Value);
+            Assert.AreEqual(contact.Petname, roundTripContact.Petname);
+            Assert.AreEqual(contact.RelayUrl, roundTripContact.RelayUrl);
+        }
+
+        [TestMethod]
+        public void ContactListEvent_ValidateContactList_ReturnsTrue()
+        {
+            var contacts = new List<ContactEntry>
+            {
+                new ContactEntry(new Pubkey("b66be78da89991544a05c3a2b63da1d15eefe8e9a1bb6a4369f8616865bd6b7c"), "alice"),
+                new ContactEntry(new Pubkey("a39199ccb5ec92b1cd047bf3dc7e8923ede769d1a5ccc47d579912f0f5cbdab4"))
+            };
+
+            var contactListEvent = ContactListEvent.Create(
+                "test_id",
+                new Pubkey("82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2"),
+                DateTimeOffset.Now,
+                "test content",
+                "test_sig",
+                contacts
+            );
+
+            Assert.IsTrue(contactListEvent.IsValidContactList());
         }
     }
 }
