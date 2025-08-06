@@ -41,19 +41,35 @@ public sealed record ContactEntry(
     /// </summary>
     public NostrTag ToPTag()
     {
+        var values = BuildPTagValues();
+        return new NostrTag("p", values);
+    }
+
+    /// <summary>
+    /// Builds the values list for the "p" tag, handling optional fields explicitly.
+    /// </summary>
+    private List<string> BuildPTagValues()
+    {
         var values = new List<string> { ContactPubkey.Value };
 
-        if (!string.IsNullOrWhiteSpace(Petname))
-            values.Add(Petname);
+        bool hasPetname = !string.IsNullOrWhiteSpace(Petname);
+        bool hasRelayUrl = !string.IsNullOrWhiteSpace(RelayUrl);
 
-        if (!string.IsNullOrWhiteSpace(RelayUrl))
+        if (hasPetname)
         {
-            // Ensure we have petname slot filled (can be empty string)
-            if (values.Count == 1)
-                values.Add(string.Empty);
-            values.Add(RelayUrl);
+            values.Add(Petname!);
+        }
+        else if (hasRelayUrl)
+        {
+            // Petname slot must be present (as empty string) if relay URL is present
+            values.Add(string.Empty);
         }
 
-        return new NostrTag("p", values);
+        if (hasRelayUrl)
+        {
+            values.Add(RelayUrl!);
+        }
+
+        return values;
     }
 }
