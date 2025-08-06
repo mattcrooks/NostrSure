@@ -119,9 +119,7 @@ public sealed class NostrEventJsonConverter : JsonConverter<NostrEvent>
             id is null || pubkey is null || createdAt is null ||
             kindInt is null || tags is null)
         {
-            // Debug: Create detailed error message
-            var errorDetails = $"Validation failed: fieldsFound={fieldsFound}, id={(id != null ? "SET" : "NULL")}, pubkey={(pubkey != null ? "SET" : "NULL")}, createdAt={(createdAt != null ? "SET" : "NULL")}, kindInt={(kindInt != null ? "SET" : "NULL")}, tags={(tags != null ? "SET" : "NULL")}";
-            throw new JsonException($"Missing required NostrEvent fields. {errorDetails}");
+            ThrowMissingRequiredFieldsException();
         }
 
         // Fast EventKind validation using HashSet lookup
